@@ -56,7 +56,7 @@ USE_VPN = os.getenv("PLUTO_VPN") == "1"
 
 # ---- VOD / on-demand ----
 ENABLE_ONDEMAND  = True
-ONDEMAND_REGIONS = ["us"]  # VOD is the slow part (one detail call per movie). Add more if wanted.
+ONDEMAND_REGIONS = ["us", "uk", "ca"]  # each region gets its own pluto_ondemand_<region>.m3u (per-file size limit, not combined)
 # ─────────────────────────────────────────────────────────────────────────────
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
