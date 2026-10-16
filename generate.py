@@ -49,6 +49,11 @@ GROUP_BY    = "country"    # "genre" (Pluto categories) or anything else = count
 REGIONALIZE = False        # your setting. True = suffix ids with -<region> (cleaner merged EPG)
 WRITE_ALL   = True
 
+# VPN mode: set env PLUTO_VPN=1 (the WireGuard workflow does this). The runner's
+# real egress IP is already in-region, so we send NO X-Forwarded-For — the IPs in
+# REGIONS are then ignored and only the region CODES/labels are used.
+USE_VPN = os.getenv("PLUTO_VPN") == "1"
+
 # ---- VOD / on-demand ----
 ENABLE_ONDEMAND  = True
 ONDEMAND_REGIONS = ["us"]  # VOD is the slow part (one detail call per movie). Add more if wanted.
@@ -71,7 +76,10 @@ TIMEOUT = 30
 
 
 def auth(token, xff):
-    return {"authorization": f"Bearer {token}", "X-Forwarded-For": xff}
+    h = {"authorization": f"Bearer {token}"}
+    if xff:
+        h["X-Forwarded-For"] = xff
+    return h
 
 
 def boot(xff):
@@ -87,7 +95,7 @@ def boot(xff):
         "clientTime": datetime.now(timezone.utc).isoformat(),
     }
     d = S.get("https://boot.pluto.tv/v4/start", params=params,
-              headers={"X-Forwarded-For": xff}, timeout=TIMEOUT).json()
+              headers=({"X-Forwarded-For": xff} if xff else {}), timeout=TIMEOUT).json()
     return d.get("sessionToken", ""), d.get("stitcherParams", "")
 
 
@@ -307,16 +315,58 @@ def write_epg(path, ch_meta, pr_xml):
                 + "\n".join(ch_xml) + "\n" + "\n".join(pr_xml) + "\n</tv>\n")
 
 
+def merge_from_disk():
+    """VPN mode runs one region per process, so build pluto_all by reading the
+    per-region files back off disk (regions in REGIONS order)."""
+    all_m3u = []
+    for region in REGIONS:
+        f = os.path.join(OUTDIR, f"pluto_{region}.m3u")
+        if not os.path.exists(f):
+            continue
+        label = REGION_LABELS.get(region, region.upper())
+        with open(f, encoding="utf-8") as fh:
+            for line in fh:
+                line = line.rstrip("\n")
+                if line.startswith("#EXTINF"):
+                    all_m3u.append(re.sub(r'group-title="[^"]*"', f'group-title="{esc(label)}"', line))
+                elif line and not line.startswith("#EXTM3U"):
+                    all_m3u.append(line)
+    write_m3u(os.path.join(OUTDIR, "pluto_all.m3u"), all_m3u)
+
+    seen, ch, pr = set(), [], []
+    for region in REGIONS:
+        f = os.path.join(OUTDIR, f"pluto_{region}.xml")
+        if not os.path.exists(f):
+            continue
+        with open(f, encoding="utf-8") as fh:
+            for line in fh:
+                line = line.rstrip("\n")
+                if line.startswith("<channel "):
+                    m = re.search(r'id="([^"]*)"', line)
+                    key = m.group(1) if m else line
+                    if key in seen:
+                        continue
+                    seen.add(key); ch.append(line)
+                elif line.startswith("<programme "):
+                    pr.append(line)
+    with open(os.path.join(OUTDIR, "pluto_all.xml"), "w", encoding="utf-8") as fh:
+        fh.write('<?xml version="1.0" encoding="UTF-8"?>\n<tv generator-info-name="AltPluto">\n'
+                 + "\n".join(ch) + "\n" + "\n".join(pr) + "\n</tv>\n")
+    print(f"==> merged {len(ch)} channels / {len(pr)} programmes into pluto_all")
+
+
 def main():
     os.makedirs(OUTDIR, exist_ok=True)
+    if "--merge" in sys.argv:          # VPN workflow calls this after all regions
+        merge_from_disk(); return
     force_all = "--all" in sys.argv
     env_region = os.getenv("PLUTO_REGION", "").lower().strip()
     regions = list(REGIONS) if (force_all or not env_region) else [env_region]
 
     all_m3u, all_ch, all_pr = [], [], []
     for region in regions:
-        xff = REGIONS.get(region)
-        if not xff:
+        xff = None if USE_VPN else REGIONS.get(region)
+        if not USE_VPN and not xff:
             print(f"!! no IP for region '{region}'"); continue
         try:
             res = build_region(region, xff)
