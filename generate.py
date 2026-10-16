@@ -123,6 +123,44 @@ def xmltv_time(dt):
     return dt.strftime("%Y%m%d%H%M%S +0000")
 
 
+def movie_year(*objs):
+    """Release year. Pluto's true release lives at episode.clip.originalReleaseDate
+    (ISO datetime); fall back to a couple of plainer fields if ever present."""
+    for o in objs:
+        if not isinstance(o, dict):
+            continue
+        cand = (o.get("clip") or {}).get("originalReleaseDate") or o.get("originalReleaseDate")
+        if isinstance(cand, str) and len(cand) >= 4 and cand[:4].isdigit():
+            y = int(cand[:4])
+            if 1900 < y < 2100:
+                return y
+        for k in ("year", "releaseYear"):
+            v = o.get(k)
+            if isinstance(v, int) and 1900 < v < 2100:
+                return v
+            if isinstance(v, str) and len(v) == 4 and v.isdigit():
+                return int(v)
+    return None
+
+
+def add_year(title, yr):
+    t = title or ""
+    if yr and not re.search(r'\(\d{4}\)\s*$', t):   # don't double up if already there
+        return f"{t} ({yr})"
+    return t
+
+
+def is_movie(ep, series):
+    stype = (series.get("type") or "").lower()
+    if stype in ("film", "movie"):
+        return True
+    if stype in ("tv", "series", "tvshow", "live"):
+        return False
+    # Pluto didn't label it: treat a long, S1E1-style single as a film.
+    dur_min = (ep.get("duration") or 0) / 60000.0
+    return dur_min >= 75 and ep.get("season") in (None, 0, 1) and ep.get("number") in (None, 0, 1)
+
+
 # ─────────────────────────────── LIVE TV ────────────────────────────────────
 def get_categories(token, xff):
     data = S.get("https://service-channels.clusters.pluto.tv/v2/guide/categories",
@@ -211,13 +249,17 @@ def build_region(region, xff):
             season, number = ep.get("season"), ep.get("number")
             desc = ep.get("description", "") or ""
             icon = ((series.get("tile", {}) or {}).get("path", "")) or ""
-            p = (f'<programme start="{xmltv_time(st)}" stop="{xmltv_time(sp)}" channel="{esc(rid(cid, region))}">'
-                 f'<title lang="en">{esc(title)}</title>')
-            if subtitle and subtitle != title:
-                p += f'<sub-title lang="en">{esc(subtitle)}</sub-title>'
-            if isinstance(season, int) and isinstance(number, int) and season > 0 and number > 0:
-                p += f'<episode-num system="onscreen">S{season:02d} E{number:02d}</episode-num>'
-                p += f'<episode-num system="xmltv_ns">{season - 1}.{number - 1}.</episode-num>'
+            p = f'<programme start="{xmltv_time(st)}" stop="{xmltv_time(sp)}" channel="{esc(rid(cid, region))}">'
+            if is_movie(ep, series):
+                # movies: title + year, no sub-title / episode-num
+                p += f'<title lang="en">{esc(add_year(title, movie_year(ep, series)))}</title>'
+            else:
+                p += f'<title lang="en">{esc(title)}</title>'
+                if subtitle and subtitle != title:
+                    p += f'<sub-title lang="en">{esc(subtitle)}</sub-title>'
+                if isinstance(season, int) and isinstance(number, int) and season > 0 and number > 0:
+                    p += f'<episode-num system="onscreen">S{season:02d} E{number:02d}</episode-num>'
+                    p += f'<episode-num system="xmltv_ns">{season - 1}.{number - 1}.</episode-num>'
             if desc:
                 p += f'<desc lang="en">{esc(desc)}</desc>'
             if icon:
@@ -290,12 +332,13 @@ def build_ondemand(region, xff):
                 continue
             logo = (v.get("featuredImage", {}) or {}).get("path", "") or ""
             oid = rid(iid, region)
+            vname = add_year(v.get("name", ""), movie_year(v, v.get("series", {}) or {}))  # VOD = movies
             m3u.append(f'#EXTINF:-1 tvg-id="{esc(oid)}" tvg-logo="{esc(logo)}" '
-                       f'tvg-chno="{chno}" group-title="{esc(catname)}",{v.get("name", "")}\n'
+                       f'tvg-chno="{chno}" group-title="{esc(catname)}",{vname}\n'
                        f'{playout_url(path, token, stitcher)}')
-            ch_meta.append({"id": oid, "name": v.get("name", ""), "number": chno, "logo": logo})
+            ch_meta.append({"id": oid, "name": vname, "number": chno, "logo": logo})
             pr.append(f'<programme start="{start}" stop="{stop}" channel="{esc(oid)}">'
-                      f'<title lang="en">{esc(v.get("name", ""))}</title>'
+                      f'<title lang="en">{esc(vname)}</title>'
                       + (f'<desc lang="en">{esc(v.get("description", ""))}</desc>' if v.get("description") else "")
                       + (f'<icon src="{esc(logo)}"/>' if logo else "") + '</programme>')
             chno += 1
