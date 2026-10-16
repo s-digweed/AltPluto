@@ -205,12 +205,24 @@ def build_region(region, xff):
             if not st or not sp:
                 continue
             ep = e.get("episode", {}) or {}
+            series = ep.get("series", {}) or {}
+            title = series.get("name") or e.get("title", "")
+            subtitle = ep.get("name", "") or ""
+            season, number = ep.get("season"), ep.get("number")
             desc = ep.get("description", "") or ""
-            icon = (((ep.get("series", {}) or {}).get("tile", {}) or {}).get("path", "")) or ""
-            pr.append(f'<programme start="{xmltv_time(st)}" stop="{xmltv_time(sp)}" channel="{esc(rid(cid, region))}">'
-                      f'<title lang="en">{esc(e.get("title", ""))}</title>'
-                      + (f'<desc lang="en">{esc(desc)}</desc>' if desc else "")
-                      + (f'<icon src="{esc(icon)}"/>' if icon else "") + '</programme>')
+            icon = ((series.get("tile", {}) or {}).get("path", "")) or ""
+            p = (f'<programme start="{xmltv_time(st)}" stop="{xmltv_time(sp)}" channel="{esc(rid(cid, region))}">'
+                 f'<title lang="en">{esc(title)}</title>')
+            if subtitle and subtitle != title:
+                p += f'<sub-title lang="en">{esc(subtitle)}</sub-title>'
+            if isinstance(season, int) and isinstance(number, int) and season > 0 and number > 0:
+                p += f'<episode-num system="onscreen">S{season:02d} E{number:02d}</episode-num>'
+                p += f'<episode-num system="xmltv_ns">{season - 1}.{number - 1}.</episode-num>'
+            if desc:
+                p += f'<desc lang="en">{esc(desc)}</desc>'
+            if icon:
+                p += f'<icon src="{esc(icon)}"/>'
+            pr.append(p + '</programme>')
     print(f"    {len(pr)} programmes")
     return m3u, ch_meta, pr
 
