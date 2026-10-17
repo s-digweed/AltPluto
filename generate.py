@@ -130,7 +130,8 @@ def movie_year(*objs):
         if not isinstance(o, dict):
             continue
         cand = (o.get("clip") or {}).get("originalReleaseDate") or o.get("originalReleaseDate")
-        if isinstance(cand, str) and len(cand) >= 4 and cand[:4].isdigit():
+        # reject the epoch-0 "1970-01-01" placeholder these channels use (not a real year)
+        if isinstance(cand, str) and cand[:4].isdigit() and not cand.startswith("1970-01-01"):
             y = int(cand[:4])
             if 1900 < y < 2100:
                 return y
@@ -154,11 +155,12 @@ def is_movie(ep, series):
     stype = (series.get("type") or "").lower()
     if stype in ("film", "movie"):
         return True
-    if stype in ("tv", "series", "tvshow", "live"):
-        return False
-    # Pluto didn't label it: treat a long, S1E1-style single as a film.
+    # Virtual channels tag EVERYTHING "live" (movies, series, news), so type is
+    # useless here. A movie = long AND no real episode position (S/E 0 or 1).
+    # Long TV episodes (e.g. MST3K S7E2, 105min) are excluded by number>1.
     dur_min = (ep.get("duration") or 0) / 60000.0
-    return dur_min >= 75 and ep.get("season") in (None, 0, 1) and ep.get("number") in (None, 0, 1)
+    s, n = ep.get("season"), ep.get("number")
+    return dur_min >= 75 and s in (None, 0, 1) and n in (None, 0, 1)
 
 
 # ─────────────────────────────── LIVE TV ────────────────────────────────────
@@ -223,6 +225,24 @@ def build_region(region, xff):
     print(f"    {len(channels)} channels")
     timelines = get_timelines(token, xff, [c["id"] for c in channels])
 
+    # Flag channels whose S/E is a BOGUS constant (e.g. CBC news stamped S01 E01 on
+    # every show). A channel is placeholder only if ALL its non-movie episodes share
+    # one (season,number) across >=3 entries; channels with varied real S/E are kept.
+    _se, _cnt = {}, {}
+    for t in timelines:
+        cid0 = t.get("channelId")
+        if not cid0:
+            continue
+        for e in t.get("timelines", []):
+            ep0 = e.get("episode", {}) or {}
+            if is_movie(ep0, ep0.get("series", {}) or {}):
+                continue
+            s0, n0 = ep0.get("season"), ep0.get("number")
+            if isinstance(s0, int) and isinstance(n0, int) and s0 > 0 and n0 > 0:
+                _se.setdefault(cid0, set()).add((s0, n0))
+                _cnt[cid0] = _cnt.get(cid0, 0) + 1
+    placeholder_cids = {c0 for c0 in _se if len(_se[c0]) == 1 and _cnt[c0] >= 3}
+
     m3u, ch_meta = [], []
     for c in channels:
         grp = c["group"] if GROUP_BY == "genre" else REGION_LABELS.get(region, region.upper())
@@ -257,7 +277,8 @@ def build_region(region, xff):
                 p += f'<title lang="en">{esc(title)}</title>'
                 if subtitle and subtitle != title:
                     p += f'<sub-title lang="en">{esc(subtitle)}</sub-title>'
-                if isinstance(season, int) and isinstance(number, int) and season > 0 and number > 0:
+                if (isinstance(season, int) and isinstance(number, int) and season > 0
+                        and number > 0 and cid not in placeholder_cids):
                     p += f'<episode-num system="onscreen">S{season:02d} E{number:02d}</episode-num>'
                     p += f'<episode-num system="xmltv_ns">{season - 1}.{number - 1}.</episode-num>'
             if desc:
