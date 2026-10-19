@@ -2,10 +2,10 @@ name: Auto AltPluto Update
 
 on:
   schedule:
-    # Every 6 hours at :25 past — off the top of the hour (GitHub drops/delays
+    # Every 5 hours at :25 past — off the top of the hour (GitHub drops/delays
     # :00 runs). EPG for many regions is heavier than live-only, so 6h not 3h;
     # tighten to '25 */3 * * *' if you want.
-    - cron: '25 */6 * * *'
+    - cron: '25 */5 * * *'
   workflow_dispatch:
 
 permissions:
