@@ -254,6 +254,11 @@ def build_region(region, xff):
                         "number": c["number"], "logo": c["logo"]})
 
     pr = []
+    # The timeline is fetched in 4h slices, so the programme straddling each slice
+    # boundary is returned TWICE. Keep one per (channel, start) — duplicates break
+    # IPTVBoss (its export goes blank past the first duplicate) even though TiviMate
+    # tolerates them when reading the raw XML.
+    seen_starts = set()
     for t in timelines:
         cid = t.get("channelId")
         if not cid:
@@ -262,6 +267,9 @@ def build_region(region, xff):
             st, sp = parse_dt(e.get("start")), parse_dt(e.get("stop"))
             if not st or not sp:
                 continue
+            if (cid, st) in seen_starts:
+                continue
+            seen_starts.add((cid, st))
             ep = e.get("episode", {}) or {}
             series = ep.get("series", {}) or {}
             title = series.get("name") or e.get("title", "")
@@ -380,7 +388,25 @@ def _channel_xml(m):
             + (f'<icon src="{esc(m["logo"])}"/>' if m["logo"] else "") + '</channel>')
 
 
+_PR_KEY = re.compile(r'<programme start="([^"]*)"[^>]*channel="([^"]*)"')
+
+
+def dedupe_programmes(pr_xml):
+    """Keep the first programme per (channel, start). Duplicates come from 4h-slice
+    seams and from the same channel id appearing in several regions; IPTVBoss
+    chokes on them (export goes blank past the first duplicate)."""
+    seen, out = set(), []
+    for p in pr_xml:
+        m = _PR_KEY.search(p)
+        key = (m.group(2), m.group(1)) if m else p
+        if key in seen:
+            continue
+        seen.add(key); out.append(p)
+    return out
+
+
 def write_epg(path, ch_meta, pr_xml):
+    pr_xml = dedupe_programmes(pr_xml)
     seen, ch_xml = set(), []
     for m in ch_meta:                       # dedupe channel defs by id
         if m["id"] in seen:
@@ -425,6 +451,7 @@ def merge_from_disk():
                     seen.add(key); ch.append(line)
                 elif line.startswith("<programme "):
                     pr.append(line)
+    pr = dedupe_programmes(pr)
     with open(os.path.join(OUTDIR, "pluto_all.xml"), "w", encoding="utf-8") as fh:
         fh.write('<?xml version="1.0" encoding="UTF-8"?>\n<tv generator-info-name="AltPluto">\n'
                  + "\n".join(ch) + "\n" + "\n".join(pr) + "\n</tv>\n")
