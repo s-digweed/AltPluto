@@ -1,21 +1,27 @@
 {
  "2026-10-20": {
   "dk": {
-   "added": [],
+   "added": [
+    "Pluto TV Horror"
+   ],
    "removed": [
     "Pluto TV Horror"
    ],
    "renamed": []
   },
   "no": {
-   "added": [],
+   "added": [
+    "Pluto TV Horror"
+   ],
    "removed": [
     "Pluto TV Horror"
    ],
    "renamed": []
   },
   "se": {
-   "added": [],
+   "added": [
+    "Pluto TV Horror"
+   ],
    "removed": [
     "Pluto TV Horror"
    ],
@@ -27,6 +33,21 @@
     "Generation Iron"
    ],
    "renamed": []
+  },
+  "us": {
+   "added": [
+    "Torque by History",
+    "Pawn Stars Plus by History",
+    "A&E’s Alaska State Troopers",
+    "A&E Live PD: Greatest Shifts"
+   ],
+   "removed": [],
+   "renamed": [
+    [
+     "Pickers & Pawn",
+     "American Pickers Plus by History"
+    ]
+   ]
   }
  }
 }
