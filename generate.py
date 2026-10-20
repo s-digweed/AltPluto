@@ -458,13 +458,13 @@ def merge_from_disk():
     print(f"==> merged {len(ch)} channels / {len(pr)} programmes into pluto_all")
 
 
-# ── Updates.log — rolling 7-day, per-country channel changes ─────────────────
+# ── updates.log — rolling 7-day, per-country channel changes ─────────────────
 # Before a region's M3U is overwritten, last run's copy (already in the repo) is
 # compared with the new one by tvg-id: new id = Added, missing id = Removed, same
 # id with a different name = Renamed. Changes accumulate per DAY in
 # updates_state.json (several runs on one day merge into one date), days older than
 # UPDATES_DAYS are pruned, and Updates.log is re-rendered newest day first.
-UPDATES_LOG   = "Updates.log"
+UPDATES_LOG   = "updates.log"
 UPDATES_STATE = "updates_state.json"
 UPDATES_DAYS  = 7
 _EXTINF = re.compile(r'^#EXTINF:-?\d+((?:\s+[\w-]+="[^"]*")*)\s*,(.*)$')
