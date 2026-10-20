@@ -458,6 +458,125 @@ def merge_from_disk():
     print(f"==> merged {len(ch)} channels / {len(pr)} programmes into pluto_all")
 
 
+# ── Updates.log — rolling 7-day, per-country channel changes ─────────────────
+# Before a region's M3U is overwritten, last run's copy (already in the repo) is
+# compared with the new one by tvg-id: new id = Added, missing id = Removed, same
+# id with a different name = Renamed. Changes accumulate per DAY in
+# updates_state.json (several runs on one day merge into one date), days older than
+# UPDATES_DAYS are pruned, and Updates.log is re-rendered newest day first.
+UPDATES_LOG   = "Updates.log"
+UPDATES_STATE = "updates_state.json"
+UPDATES_DAYS  = 7
+_EXTINF = re.compile(r'^#EXTINF:-?\d+((?:\s+[\w-]+="[^"]*")*)\s*,(.*)$')
+
+
+def m3u_names(lines):
+    """{tvg-id: channel name} from M3U lines (a line may carry '\\n' + URL)."""
+    out = {}
+    for chunk in lines:
+        for line in chunk.split("\n"):
+            m = _EXTINF.match(line.strip())
+            if not m:
+                continue
+            tid = re.search(r'tvg-id="([^"]*)"', m.group(1))
+            name = html.unescape(m.group(2)).strip()
+            if tid and tid.group(1):
+                out[tid.group(1)] = name
+    return out
+
+
+def read_m3u_names(path):
+    try:
+        with open(path, encoding="utf-8") as f:
+            return m3u_names(f.read().splitlines())
+    except FileNotFoundError:
+        return None
+
+
+def diff_region(old, new):
+    added   = [new[i] for i in new.keys() - old.keys()]
+    removed = [old[i] for i in old.keys() - new.keys()]
+    renamed = [[old[i], new[i]] for i in old.keys() & new.keys() if old[i] != new[i]]
+    return added, removed, renamed
+
+
+def _merge(lst, items):
+    for it in items:
+        if it not in lst:
+            lst.append(it)
+
+
+def render_updates_log(state):
+    order = {r: n for n, r in enumerate(REGIONS)}
+    out = [f"AltPluto channel changes - last {UPDATES_DAYS} days (newest first)",
+           "Times in UTC. A date only appears if something changed that day.", ""]
+    if not state:
+        out.append("No channel changes in the last week.")
+    for day in sorted(state, reverse=True):
+        d = datetime.strptime(day, "%Y-%m-%d").strftime("%m/%d/%Y")
+        out += ["=" * 40, d, "=" * 40, ""]
+        for region in sorted(state[day], key=lambda r: order.get(r, 99)):
+            rec = state[day][region]
+            out.append(region.upper())
+            for w in rec.get("warn", []):
+                out.append(f"!! {w}")
+            for note in rec.get("note", []):
+                out.append(note)
+            sections = []
+            if rec.get("added"):
+                sections.append(["Added"] + [f"+ {n}" for n in sorted(rec["added"], key=str.lower)])
+            if rec.get("removed"):
+                sections.append(["Removed"] + [f"- {n}" for n in sorted(rec["removed"], key=str.lower)])
+            if rec.get("renamed"):
+                sections.append(["Renamed"] + [f"~ {a} to {b}" for a, b in
+                                               sorted(rec["renamed"], key=lambda x: x[0].lower())])
+            for sec in sections:
+                out.append("")
+                out += sec
+            out.append("")
+            out.append("")
+    return "\n".join(out).rstrip() + "\n"
+
+
+def write_updates_log(changes, now=None):
+    """changes: list of (region, old_names_or_None, new_names)."""
+    now = now or datetime.now(timezone.utc)
+    today = now.strftime("%Y-%m-%d")
+    try:
+        with open(UPDATES_STATE, encoding="utf-8") as f:
+            state = json.load(f)
+    except Exception:
+        state = {}
+    logged = 0
+    for region, old, new in changes:
+        if old is None:
+            rec = state.setdefault(today, {}).setdefault(region, {})
+            _merge(rec.setdefault("note", []),
+                   [f"First snapshot ({len(new)} channels) - nothing to compare yet"])
+            logged += 1
+            continue
+        added, removed, renamed = diff_region(old, new)
+        if not (added or removed or renamed):
+            continue
+        rec = state.setdefault(today, {}).setdefault(region, {})
+        if old and len(removed) > 0.5 * len(old):
+            _merge(rec.setdefault("warn", []),
+                   [f"{now:%H:%M} run: {len(removed)} of {len(old)} channels missing - "
+                    "possibly a partial fetch, check the Actions log"])
+        _merge(rec.setdefault("added", []), added)
+        _merge(rec.setdefault("removed", []), removed)
+        _merge(rec.setdefault("renamed", []), renamed)
+        logged += 1
+    cutoff = (now - timedelta(days=UPDATES_DAYS - 1)).strftime("%Y-%m-%d")
+    state = {d: v for d, v in state.items() if d >= cutoff and v}
+    with open(UPDATES_STATE, "w", encoding="utf-8") as f:
+        json.dump(state, f, ensure_ascii=False, indent=1, sort_keys=True)
+    with open(UPDATES_LOG, "w", encoding="utf-8") as f:
+        f.write(render_updates_log(state))
+    print(f"==> Updates.log: {logged} region(s) changed this run; "
+          f"{len(state)} day(s) in the 7-day window")
+
+
 def main():
     os.makedirs(OUTDIR, exist_ok=True)
     if "--merge" in sys.argv:          # VPN workflow calls this after all regions
@@ -467,6 +586,7 @@ def main():
     regions = list(REGIONS) if (force_all or not env_region) else [env_region]
 
     all_m3u, all_ch, all_pr = [], [], []
+    changes = []
     for region in regions:
         xff = None if USE_VPN else REGIONS.get(region)
         if not USE_VPN and not xff:
@@ -477,7 +597,9 @@ def main():
             print(f"    ERROR live {region}: {e}"); res = None
         if res:
             m3u, ch_meta, pr = res
-            write_m3u(os.path.join(OUTDIR, f"pluto_{region}.m3u"), m3u)
+            m3u_path = os.path.join(OUTDIR, f"pluto_{region}.m3u")
+            changes.append((region, read_m3u_names(m3u_path), m3u_names(m3u)))
+            write_m3u(m3u_path, m3u)
             write_epg(os.path.join(OUTDIR, f"pluto_{region}.xml"), ch_meta, pr)
             label = REGION_LABELS.get(region, region.upper())
             for line in m3u:
@@ -500,6 +622,8 @@ def main():
         write_m3u(os.path.join(OUTDIR, "pluto_all.m3u"), all_m3u)
         write_epg(os.path.join(OUTDIR, "pluto_all.xml"), all_ch, all_pr)
         print("==> wrote pluto_all.m3u / pluto_all.xml")
+
+    write_updates_log(changes)
 
 
 if __name__ == "__main__":
