@@ -104,6 +104,17 @@
    ],
    "renamed": []
   },
+  "ca": {
+   "added": [
+    "CBC News North",
+    "CBC News Nova Scotia",
+    "CBC News Windsor",
+    "CBC News NL",
+    "CBC News PEI"
+   ],
+   "removed": [],
+   "renamed": []
+  },
   "es": {
    "added": [
     "Rebelde"
