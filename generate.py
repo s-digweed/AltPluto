@@ -577,16 +577,52 @@ def write_updates_log(changes, now=None):
           f"{len(state)} day(s) in the 7-day window")
 
 
+# ── status page (status.json for status.html in the PlexTV repo) ─────────────
+def write_status(failed=()):
+    """Every channel per country from the per-region M3Us on disk, plus freshness."""
+    try:
+        from status_page import update_status, epg_stats
+    except ImportError:
+        print("status_page.py missing - status page skipped"); return
+    regions = {}
+    for region in REGIONS:
+        f = os.path.join(OUTDIR, f"pluto_{region}.m3u")
+        if not os.path.exists(f):
+            continue
+        rows = []
+        with open(f, encoding="utf-8") as fh:
+            for line in fh:
+                m = _EXTINF.match(line.strip())
+                if not m:
+                    continue
+                attrs = dict(re.findall(r'([\w-]+)="([^"]*)"', m.group(1)))
+                cid = attrs.get("tvg-id") or attrs.get("channel-id")
+                if not cid:
+                    continue
+                rows.append({"id": cid, "name": html.unescape(m.group(2)).strip(),
+                             "logo": attrs.get("tvg-logo", ""), "group": "",
+                             "status": "free", "detail": "AltPluto · 720p"})
+        regions[region] = {"name": REGION_LABELS.get(region, region.upper()), "channels": rows}
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    notes = ["Every AltPluto channel plays without a VPN (Pluto caps these streams at 720p)"]
+    if failed:
+        notes.append("Failed this run (kept last good playlist): " + ", ".join(r.upper() for r in failed))
+    health = {"repo": "s-digweed/AltPluto", "every_h": 6,
+              "m3u_updated": now, "epg_updated": now, "notes": notes}
+    health.update(epg_stats(os.path.join(OUTDIR, "pluto_all.xml")))
+    update_status("Pluto TV (AltPluto)", regions, "status.json", "status_state.json", health=health)
+
+
 def main():
     os.makedirs(OUTDIR, exist_ok=True)
     if "--merge" in sys.argv:          # VPN workflow calls this after all regions
-        merge_from_disk(); return
+        merge_from_disk(); write_status(); return
     force_all = "--all" in sys.argv
     env_region = os.getenv("PLUTO_REGION", "").lower().strip()
     regions = list(REGIONS) if (force_all or not env_region) else [env_region]
 
     all_m3u, all_ch, all_pr = [], [], []
-    changes = []
+    changes, failed = [], []
     for region in regions:
         xff = None if USE_VPN else REGIONS.get(region)
         if not USE_VPN and not xff:
@@ -607,6 +643,8 @@ def main():
                     line = re.sub(r'group-title="[^"]*"', f'group-title="{esc(label)}"', line)
                 all_m3u.append(line)
             all_ch.extend(ch_meta); all_pr.extend(pr)
+        else:
+            failed.append(region)
 
         if ENABLE_ONDEMAND and region in ONDEMAND_REGIONS:
             try:
@@ -624,6 +662,8 @@ def main():
         print("==> wrote pluto_all.m3u / pluto_all.xml")
 
     write_updates_log(changes)
+    if len(regions) > 1:               # single-region VPN passes report via --merge
+        write_status(failed)
 
 
 if __name__ == "__main__":
