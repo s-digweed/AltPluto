@@ -214,6 +214,37 @@ def rid(cid, region):
     return f"{cid}-{region}" if REGIONALIZE else cid
 
 
+def _season_prefixed(season, number):
+    """Remainder when an episode number carries its season in front ("302" in season 3
+    -> 2, "1514" in season 15 -> 14, "3029" in season 3 -> 29), else None."""
+    if not (isinstance(season, int) and isinstance(number, int) and season > 0 and number >= 100):
+        return None
+    n, p = str(number), str(season)
+    if not n.startswith(p) or len(n) - len(p) < 2:
+        return None
+    rest = int(n[len(p):])
+    return rest if rest > 0 else None
+
+
+def fix_episode_number(season, number, season_numbers):
+    """Pluto's international feeds (seen on DK/NO/SE/DE/FR...: Frasier, South Park, iCarly,
+    COPS...) often write the episode as season+episode glued together - S03 E302 is
+    really S03 E02. Undo that, without touching genuinely long seasons (telenovelas,
+    daily shows with S01 E180):
+      - season 2+: a number that starts with the season digits and is >= 100 is decoded;
+      - season 1:  only if every number seen for that show's season 1 on this channel is
+                   >= 100 (so it's an encoding, not a long run) and the result is <= 40
+                   (and the caller only asks for episodes that have an episode title)."""
+    rest = _season_prefixed(season, number)
+    if rest is None:
+        return number
+    if season >= 2:
+        return rest
+    if season_numbers and min(season_numbers) >= 100 and rest <= 40:
+        return rest
+    return number
+
+
 def build_region(region, xff):
     print(f"==> live {region}")
     token, stitcher = boot(xff)
@@ -242,6 +273,18 @@ def build_region(region, xff):
                 _se.setdefault(cid0, set()).add((s0, n0))
                 _cnt[cid0] = _cnt.get(cid0, 0) + 1
     placeholder_cids = {c0 for c0 in _se if len(_se[c0]) == 1 and _cnt[c0] >= 3}
+
+    # every episode number seen per (channel, show, season) - lets fix_episode_number()
+    # tell a glued "season+episode" number from a genuinely long season
+    _nums = {}
+    for t in timelines:
+        cid0 = t.get("channelId")
+        for e in t.get("timelines", []) if cid0 else []:
+            ep0 = e.get("episode", {}) or {}
+            s0, n0 = ep0.get("season"), ep0.get("number")
+            if isinstance(s0, int) and isinstance(n0, int) and n0 > 0:
+                show0 = ((ep0.get("series", {}) or {}).get("name")) or e.get("title", "")
+                _nums.setdefault((cid0, show0, s0), set()).add(n0)
 
     m3u, ch_meta = [], []
     for c in channels:
@@ -285,6 +328,11 @@ def build_region(region, xff):
                 p += f'<title lang="en">{esc(title)}</title>'
                 if subtitle and subtitle != title:
                     p += f'<sub-title lang="en">{esc(subtitle)}</sub-title>'
+                # season 1 is only decoded for proper episodes (with an episode title):
+                # untitled weekly news/talk shows can genuinely be past episode 100
+                if (isinstance(season, int) and isinstance(number, int) and season > 0
+                        and (season >= 2 or subtitle)):
+                    number = fix_episode_number(season, number, _nums.get((cid, title, season)))
                 if (isinstance(season, int) and isinstance(number, int) and season > 0
                         and number > 0 and cid not in placeholder_cids):
                     p += f'<episode-num system="onscreen">S{season:02d} E{number:02d}</episode-num>'
