@@ -1,34 +1,4 @@
 {
- "2026-10-22": {
-  "br": {
-   "added": [
-    "Pluto TV Esportes 2"
-   ],
-   "removed": [],
-   "renamed": []
-  },
-  "dk": {
-   "added": [
-    "Nathan for You"
-   ],
-   "removed": [],
-   "renamed": []
-  },
-  "no": {
-   "added": [
-    "Nathan for You"
-   ],
-   "removed": [],
-   "renamed": []
-  },
-  "se": {
-   "added": [
-    "Nathan for You"
-   ],
-   "removed": [],
-   "renamed": []
-  }
- },
  "2026-10-23": {
   "br": {
    "added": [],
@@ -89,6 +59,16 @@
    "removed": [
     "CBS News Philadelphia"
    ],
+   "renamed": []
+  }
+ },
+ "2026-10-29": {
+  "de": {
+   "added": [
+    "Die Thundermans",
+    "Zoey 101"
+   ],
+   "removed": [],
    "renamed": []
   }
  }
