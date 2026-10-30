@@ -39,6 +39,86 @@
   }
  },
  "2026-10-30": {
+  "ca": {
+   "added": [
+    "Sabrina the Teenage Witch"
+   ],
+   "removed": [],
+   "renamed": [
+    [
+     "Super Channel Hearties",
+     "Hearties Christmas 2026"
+    ]
+   ]
+  },
+  "de": {
+   "added": [
+    "Pluto TV Star Trek: Picards Scharfsinn"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "dk": {
+   "added": [
+    "Doctor Who: Christmas",
+    "Top Gear Challenge",
+    "Top Gear Road Trips"
+   ],
+   "removed": [
+    "Teen Wolf",
+    "Breinholts"
+   ],
+   "renamed": []
+  },
+  "es": {
+   "added": [
+    "Los Mosqueteros",
+    "Top Gear: Celebrities",
+    "Doctor Who"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "it": {
+   "added": [
+    "Streghe"
+   ],
+   "removed": [
+    "Pluto TV Alieni"
+   ],
+   "renamed": []
+  },
+  "no": {
+   "added": [
+    "Top Gear Challenge",
+    "Doctor Who: Christmas",
+    "Top Gear Road Trips"
+   ],
+   "removed": [
+    "Teen Wolf"
+   ],
+   "renamed": []
+  },
+  "se": {
+   "added": [
+    "Top Gear Challenge",
+    "Doctor Who: Christmas",
+    "Top Gear Road Trips"
+   ],
+   "removed": [
+    "Teen Wolf"
+   ],
+   "renamed": []
+  },
+  "uk": {
+   "added": [],
+   "removed": [
+    "Dominance FC TV",
+    "The Yellow Couch with Jeremy Lynch",
+    "CNNi"
+   ],
+   "renamed": []
+  },
   "us": {
    "added": [
     "Star Trek: The Motion Pictures"
