@@ -126,5 +126,85 @@
    "removed": [],
    "renamed": []
   }
+ },
+ "2026-11-01": {
+  "dk": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "That's 70s",
+     "That's Christmas"
+    ]
+   ]
+  },
+  "it": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "That's 70s",
+     "That's Christmas"
+    ]
+   ]
+  },
+  "no": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "That's 70s",
+     "That's Christmas"
+    ]
+   ]
+  },
+  "se": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "That's 70s",
+     "That's Christmas"
+    ]
+   ]
+  },
+  "uk": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "That's 70s",
+     "That's Christmas"
+    ]
+   ]
+  },
+  "us": {
+   "added": [
+    "I (Almost) Got Away With It",
+    "Vevo Holiday",
+    "Nikita",
+    "Whose Line Is It Anyway",
+    "Extreme Expeditions",
+    "BET Holiday Movies",
+    "The FBI",
+    "Survive or Die",
+    "Home for the Holidays",
+    "Crime Scenes",
+    "Strangely Addicting",
+    "Nip/Tuck",
+    "Third Watch",
+    "Cine navideño",
+    "The Repair Shop",
+    "How To",
+    "Bizarre Foods with Andrew Zimmern",
+    "Pluto TV Mistletoe",
+    "Pluto TV Christmas",
+    "Mysterious Worlds"
+   ],
+   "removed": [
+    "Pluto TV Halloween"
+   ],
+   "renamed": []
+  }
  }
 }
