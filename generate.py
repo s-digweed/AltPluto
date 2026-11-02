@@ -245,6 +245,17 @@ def fix_episode_number(season, number, season_numbers):
     return number
 
 
+# Music-video channels: their "episodes" are rotating clip playlists, so Pluto's
+# S/E is meaningless (Vevo is stamped S93 E45, E47...; MTV Classic "80s Hits" S01 E06
+# "Episode 6"). No episode-num on these, and the filler "Episode N" sub-title goes too;
+# artist-list sub-titles ("Madonna / Prince / ...") are kept. Concert and music-doc
+# channels (Live Music, Concert Channel, Qello) are NOT listed: those are real shows.
+MUSIC_CLIP_RE = re.compile(
+    r"^(Vevo|XITE)\b|TikTok Radio|CMT Equal Play|Yo! MTV|Stingray|ZenLIFE"
+    r"|^MTV (Biggest Pop|Spankin|Flow Latino|Rocks|Hits|Classic$|[0-9]{2}s)")
+FILLER_SUB_RE = re.compile(r"^(Episode|Episodio|Épisode|Folge|Afsnit|Episódio)\s*\d+$", re.I)
+
+
 def build_region(region, xff):
     print(f"==> live {region}")
     token, stitcher = boot(xff)
@@ -286,6 +297,10 @@ def build_region(region, xff):
                 show0 = ((ep0.get("series", {}) or {}).get("name")) or e.get("title", "")
                 _nums.setdefault((cid0, show0, s0), set()).add(n0)
 
+    music_cids = {c["id"] for c in channels if MUSIC_CLIP_RE.search(c["name"])}
+    if music_cids:
+        print(f"    {len(music_cids)} music-video channels: no S/E")
+
     m3u, ch_meta = [], []
     for c in channels:
         grp = c["group"] if GROUP_BY == "genre" else REGION_LABELS.get(region, region.upper())
@@ -321,6 +336,10 @@ def build_region(region, xff):
             desc = ep.get("description", "") or ""
             icon = ((series.get("tile", {}) or {}).get("path", "")) or ""
             p = f'<programme start="{xmltv_time(st)}" stop="{xmltv_time(sp)}" channel="{esc(rid(cid, region))}">'
+            if cid in music_cids:
+                if FILLER_SUB_RE.match(subtitle.strip()):
+                    subtitle = ""
+                season = number = None                    # clip playlists: no S/E
             if is_movie(ep, series):
                 # movies: title + year, no sub-title / episode-num
                 p += f'<title lang="en">{esc(add_year(title, movie_year(ep, series)))}</title>'
