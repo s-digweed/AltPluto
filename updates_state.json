@@ -1,20 +1,4 @@
 {
- "2026-10-26": {
-  "de": {
-   "added": [
-    "Pluto TV Kumite"
-   ],
-   "removed": [],
-   "renamed": []
-  },
-  "uk": {
-   "added": [],
-   "removed": [
-    "Cash In The Attic"
-   ],
-   "renamed": []
-  }
- },
  "2026-10-27": {
   "us": {
    "added": [
@@ -205,6 +189,27 @@
     "Pluto TV Halloween"
    ],
    "renamed": []
+  }
+ },
+ "2026-11-02": {
+  "us": {
+   "added": [
+    "Places & Spaces",
+    "Crackling Fireplace",
+    "Star Trek en español",
+    "Festive Fireplace"
+   ],
+   "removed": [],
+   "renamed": [
+    [
+     "Lifetime Movie Favorites",
+     "Lifetime Holiday Movie Favorites"
+    ],
+    [
+     "Hallmark Movies & More",
+     "Hallmark Movies & More Holiday Favorites"
+    ]
+   ]
   }
  }
 }
