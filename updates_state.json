@@ -192,14 +192,188 @@
   }
  },
  "2026-11-02": {
+  "ar": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "Top Barça",
+     "Barça 24H"
+    ]
+   ]
+  },
+  "br": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "Top Barça",
+     "Barça 24H"
+    ]
+   ]
+  },
+  "ca": {
+   "added": [
+    "Festive Fireplace",
+    "Crackling Fireplace",
+    "Stingray Holidayscapes",
+    "The Great Christmas Light Fight presented by Places & Spaces",
+    "Paw Patrol Holiday Fireplace",
+    "Pluto TV Christmas"
+   ],
+   "removed": [
+    "Pluto TV Zombies"
+   ],
+   "renamed": []
+  },
+  "cl": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "Top Barça",
+     "Barça 24H"
+    ]
+   ]
+  },
+  "de": {
+   "added": [
+    "Scorpion",
+    "Pluto TV Fireplace",
+    "Pluto TV Mistletoe",
+    "Weihnachtskino",
+    "Pluto TV Christmas"
+   ],
+   "removed": [
+    "Pluto TV Reportagen",
+    "Pluto TV Halloween",
+    "Pluto TV Historische Serien",
+    "Pluto TV Creature Features",
+    "Pluto TV Nordic Crime",
+    "Pluto TV Gore & Slasher"
+   ],
+   "renamed": []
+  },
+  "dk": {
+   "added": [
+    "Familien Thunderman",
+    "Andersens Julehemmelighed",
+    "Henry Danger"
+   ],
+   "removed": [
+    "Fredag den 13.",
+    "Friday the 13th - The TV series",
+    "Pluto TV Sherlock Holmes",
+    "The Addams Family",
+    "South Park Halloween",
+    "Pluto TV Hus fra helvede",
+    "The Outer Limits"
+   ],
+   "renamed": []
+  },
+  "es": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "TOP BARÇA",
+     "Barça 24H"
+    ]
+   ]
+  },
+  "fr": {
+   "added": [
+    "Victorious",
+    "Pluto TV Kids Collection",
+    "Avatar"
+   ],
+   "removed": [
+    "Horrorland by Pluto TV"
+   ],
+   "renamed": []
+  },
+  "it": {
+   "added": [
+    "Black Beard Project"
+   ],
+   "removed": [
+    "Pluto TV Halloween",
+    "Pluto TV Splatter",
+    "Pluto TV Mostri e Vampiri",
+    "Pluto TV Psycho"
+   ],
+   "renamed": []
+  },
+  "mx": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "Top Barça",
+     "Barça 24H"
+    ]
+   ]
+  },
+  "no": {
+   "added": [
+    "Henry Danger",
+    "Familien Thunderman"
+   ],
+   "removed": [
+    "Friday the 13th - The TV series",
+    "The Addams Family",
+    "The Outer Limits",
+    "Pluto TV Hus fra helvete",
+    "Pluto TV Sherlock Holmes",
+    "Fredag den 13.",
+    "South Park Halloween"
+   ],
+   "renamed": []
+  },
+  "se": {
+   "added": [
+    "Familjen Thunderman",
+    "Henry Danger"
+   ],
+   "removed": [
+    "Pluto TV Sherlock Holmes",
+    "South Park Halloween",
+    "The Addams Family",
+    "The Outer Limits",
+    "Pluto TV Hus från helvetet",
+    "Friday the 13th - The TV series",
+    "Fredagen den 13:e"
+   ],
+   "renamed": []
+  },
+  "uk": {
+   "added": [
+    "Pluto TV Christmas",
+    "Pluto TV Horror",
+    "Fireplace",
+    "Pluto TV Mistletoe"
+   ],
+   "removed": [
+    "Pluto TV Kids Halloween",
+    "Pluto TV Slasher Movies",
+    "Bitten",
+    "Pluto TV Halloween",
+    "Pluto TV Masters of Horror",
+    "Pluto TV Creature Features"
+   ],
+   "renamed": []
+  },
   "us": {
    "added": [
     "Places & Spaces",
     "Crackling Fireplace",
     "Star Trek en español",
-    "Festive Fireplace"
+    "Festive Fireplace",
+    "CBS News Detroit"
    ],
-   "removed": [],
+   "removed": [
+    "CBS News Chicago"
+   ],
    "renamed": [
     [
      "Lifetime Movie Favorites",
