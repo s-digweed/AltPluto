@@ -225,6 +225,16 @@ def save_year_cache():
 
 MIN_MATCH = 2    # shared description words needed to accept a film's year
 
+# Hand-checked answers that beat any lookup: title -> year, or 0 = never add a year
+# (a series Pluto slots like a film). Add a line whenever a guide shows a wrong year.
+YEAR_PIN = {
+    "Abduction": 2011,                     # Taylor Lautner; TMDB also has a 2026 film
+    "It Came from Outer Space": 1953,      # Universal original, not the 2022 remake
+    "SvampeBob Firkant": 0,                # SpongeBob series on Nick Norway/Denmark
+    "SvampBob Fyrkant": 0,                 # ... and Sweden
+}
+_PIN = None      # normalised YEAR_PIN, built on first use
+
 def _omdb_year(title, desc):
     """OMDb fallback (English guides only): exact title AND its plot must share
     words with Pluto's description. -> year, 0 (no match), None (not asked)"""
@@ -251,6 +261,12 @@ def lookup_year(title, desc="", region="us"):
     accepted when the film's own description shares at least MIN_MATCH words with
     Pluto's - that keeps news/sports/music blocks that happen to share a film's
     title (60 Minutes, BBC News, Joyful Noise...) from getting a bogus year."""
+    global _PIN
+    if _PIN is None:
+        _PIN = {_norm_t(k): v for k, v in YEAR_PIN.items()}
+    pin = _PIN.get(_norm_t(title))
+    if pin is not None:
+        return pin or None
     if not (TMDB_KEY or OMDB_KEY) or not title or not desc:
         return None
     lang = TMDB_LANG.get(region, "en-US")
