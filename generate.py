@@ -18,6 +18,7 @@ import re
 import sys
 import html
 import json
+import time
 import requests
 from datetime import datetime, timezone, timedelta
 
@@ -142,6 +143,121 @@ def movie_year(*objs):
             if isinstance(v, str) and len(v) == 4 and v.isdigit():
                 return int(v)
     return None
+
+
+# ── Release year from TMDB when Pluto has none ───────────────────────────────
+# Some movie channels (Hallmark/Lifetime holiday, Universal Monsters, MovieSphere,
+# 50 Cent Action...) ship no originalReleaseDate (or the 1970 placeholder), so their
+# films had no "(Year)". We ask TMDB for the title; when several films share the
+# exact title we pick the one whose overview best matches Pluto's description, and
+# give up (no year) rather than guess. Films TMDB can't place go to OMDb
+# (exact title; must match the description too when the title is shared). Results live in movie_years.json: hits are
+# kept for good, misses re-checked after 30 days. Needs the TMDB_API_KEY secret.
+TMDB_KEY        = os.getenv("TMDB_API_KEY", "").strip()
+YEAR_CACHE_FILE = "movie_years.json"
+YEAR_BUDGET     = int(os.getenv("TMDB_YEAR_BUDGET", "600"))   # TMDB calls per run
+OMDB_KEY        = os.getenv("OMDB_API_KEY2", "").strip()      # shared with Jpuffle5/CN Classic
+OMDB_YEAR_BUDGET = int(os.getenv("OMDB_YEAR_BUDGET", "80"))   # OMDb calls per run (5 runs/day)
+_year_cache     = None
+_year_stats     = {"calls": 0, "omdb": 0, "tmdb_found": 0, "omdb_found": 0}
+_STOP = set("a an the and or of to in on at for with by from his her their its is are was "
+            "be as into who that this when after but not out up he she they it".split())
+
+def _norm_t(t):
+    t = html.unescape(t or "").lower().replace("&", "and")
+    return re.sub(r"[^a-z0-9]", "", t)
+
+def _words(t):
+    return {w for w in re.findall(r"[a-z]{3,}", html.unescape(t or "").lower()) if w not in _STOP}
+
+def _load_year_cache():
+    global _year_cache
+    if _year_cache is None:
+        try:
+            with open(YEAR_CACHE_FILE, encoding="utf-8") as f:
+                _year_cache = json.load(f)
+        except Exception:
+            _year_cache = {}
+    return _year_cache
+
+def save_year_cache():
+    if _year_cache is not None:
+        with open(YEAR_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(_year_cache, f, ensure_ascii=False, indent=0, sort_keys=True)
+    if TMDB_KEY or OMDB_KEY:
+        st = _year_stats
+        print(f"==> film years: TMDB {st['calls']} lookups / {st['tmdb_found']} found · "
+              f"OMDb {st['omdb']} lookups / {st['omdb_found']} found"
+              f"{'' if OMDB_KEY else ' (no OMDB_API_KEY2 secret)'}")
+
+def _omdb_year(title, desc, need_plot_match):
+    """OMDb fallback: exact title only; when TMDB saw several same-name films,
+    OMDb's pick must also match Pluto's description. -> year, 0 (no match), None (not asked)"""
+    if not OMDB_KEY or _year_stats["omdb"] >= OMDB_YEAR_BUDGET:
+        return None
+    _year_stats["omdb"] += 1
+    try:
+        j = S.get("https://www.omdbapi.com/", timeout=TIMEOUT,
+                  params={"apikey": OMDB_KEY, "t": html.unescape(title), "type": "movie", "plot": "short"}).json()
+    except Exception:
+        return None
+    if "limit" in str(j.get("Error", "")).lower():
+        _year_stats["omdb"] = OMDB_YEAR_BUDGET; return None
+    if j.get("Response") != "True" or _norm_t(j.get("Title")) != _norm_t(title):
+        return 0
+    if need_plot_match and len(_words(desc) & _words(j.get("Plot"))) < 2:
+        return 0
+    y = (j.get("Year") or "")[:4]
+    return int(y) if y.isdigit() else 0
+
+def lookup_year(title, desc=""):
+    """Year for a film Pluto gave none for: TMDB first, OMDb for what TMDB can't place."""
+    if not (TMDB_KEY or OMDB_KEY) or not title:
+        return None
+    cache = _load_year_cache()
+    key = f"{_norm_t(title)}|{_norm_t(desc)[:40]}"
+    hit = cache.get(key)
+    if hit and hit.get("y"):
+        return hit["y"]
+    fresh = hit and time.time() - hit.get("t", 0) < 30 * 86400
+    if fresh and (hit.get("o") or not OMDB_KEY):
+        return None                                    # both sources already said no
+    y, ambiguous = None, bool(hit and hit.get("amb"))
+    if not fresh and TMDB_KEY:
+        if _year_stats["calls"] >= YEAR_BUDGET:
+            return None
+        _year_stats["calls"] += 1
+        try:
+            r = S.get("https://api.themoviedb.org/3/search/movie", timeout=TIMEOUT,
+                      params={"api_key": TMDB_KEY, "query": html.unescape(title), "include_adult": "false"})
+            res = (r.json().get("results") or []) if r.status_code == 200 else None
+        except Exception:
+            res = None
+        if res is None:
+            return None                                # network/API trouble: try next run
+        want = _norm_t(title)
+        cands = [m for m in res if (m.get("release_date") or "")[:4].isdigit()
+                 and want in (_norm_t(m.get("title")), _norm_t(m.get("original_title")))]
+        ambiguous = len(cands) > 1
+        if len(cands) == 1:
+            y = int(cands[0]["release_date"][:4])
+        elif cands:
+            dw = _words(desc)
+            scored = sorted(((len(dw & _words(m.get("overview"))), m.get("popularity") or 0, m) for m in cands),
+                            key=lambda x: (x[0], x[1]), reverse=True)
+            if scored[0][0] >= 2 and (len(scored) == 1 or scored[0][0] > scored[1][0]):
+                y = int(scored[0][2]["release_date"][:4])
+        if y:
+            _year_stats["tmdb_found"] += 1
+    asked_omdb = bool(hit and hit.get("o"))
+    if not y and not asked_omdb:
+        oy = _omdb_year(title, desc, need_plot_match=ambiguous)
+        if oy is not None:
+            asked_omdb = True
+            if oy:
+                y = oy; _year_stats["omdb_found"] += 1
+    cache[key] = {"y": y, "t": hit["t"] if fresh else time.time(), "o": asked_omdb, "amb": ambiguous}
+    return y
 
 
 def add_year(title, yr):
@@ -342,7 +458,8 @@ def build_region(region, xff):
                 season = number = None                    # clip playlists: no S/E
             if is_movie(ep, series):
                 # movies: title + year, no sub-title / episode-num
-                p += f'<title lang="en">{esc(add_year(title, movie_year(ep, series)))}</title>'
+                yr = movie_year(ep, series) or lookup_year(title, desc)
+                p += f'<title lang="en">{esc(add_year(title, yr))}</title>'
             else:
                 p += f'<title lang="en">{esc(title)}</title>'
                 if subtitle and subtitle != title:
@@ -728,6 +845,7 @@ def main():
         write_epg(os.path.join(OUTDIR, "pluto_all.xml"), all_ch, all_pr)
         print("==> wrote pluto_all.m3u / pluto_all.xml")
 
+    save_year_cache()
     write_updates_log(changes)
     if len(regions) > 1:               # single-region VPN passes report via --merge
         write_status(failed)
