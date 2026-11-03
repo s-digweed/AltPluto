@@ -32,6 +32,9 @@ jobs:
         run: pip install requests
 
       - name: Generate playlists + EPG (all regions + merged)
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}     # release years for films Pluto gives none
+          OMDB_API_KEY2: ${{ secrets.OMDB_API_KEY2 }}   # fallback for films TMDB can't place
         run: python generate.py --all
 
       - name: Gzip every XML guide and drop the raw .xml
