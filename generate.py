@@ -173,10 +173,22 @@ _STOP = set("a an the and or of to in on at for with by from his her their its i
             "der die das und ein eine einen einem mit von den dem sich ist auf aus nach als "
             "och det att som med til och den har ikke".split())
 
+# Year lookups only run on channels that can actually carry films. Pluto's own
+# category (any language) or the channel name rules out news, sports, music,
+# shopping, weather, gaming and the like.
+NOFILM_CAT_RE = re.compile(
+    r"news|noticias|nachrichten|notizie|nouvelles|not[ií]cias|nyheter|info"
+    r"|sport|deporte|esporte|music|m[uú]sica|musik|musique|shopping|compras"
+    r"|weather|wetter|gaming|games|juegos|podcast", re.I)
+NOFILM_NAME_RE = re.compile(
+    r"\bnews\b|noticias|nachrichten|weather|wetter|sports?\b|deportes|qvc|\bhsn\b"
+    r"|bloomberg|cbs news|nbc news|abc news|fox weather|\bfifa\b|\bnfl\b|\bnba\b|\bnhl\b|\bmlb\b"
+    r"|\bufc\b|\bpga\b|dazn|darts|snooker|golf|tennis|hockey|rugby|boxing|boxeo|wrestling|\bwwe\b", re.I)
+
 TMDB_LANG = {"us": "en-US", "uk": "en-GB", "ca": "en-CA", "de": "de-DE", "fr": "fr-FR",
              "es": "es-ES", "it": "it-IT", "mx": "es-MX", "ar": "es-AR", "cl": "es-CL",
              "br": "pt-BR", "no": "no-NO", "se": "sv-SE", "dk": "da-DK"}
-YEAR_CACHE_VER = "v2"     # bump to throw away old guesses
+YEAR_CACHE_VER = "v3"     # bump to throw away old guesses
 
 def _norm_t(t):
     t = html.unescape(t or "").lower().replace("&", "and")
@@ -228,7 +240,7 @@ def _omdb_year(title, desc):
         _year_stats["omdb"] = OMDB_YEAR_BUDGET; return None
     if j.get("Response") != "True" or _norm_t(j.get("Title")) != _norm_t(title):
         return 0
-    if len(_words(desc) & _words(j.get("Plot"))) < MIN_MATCH:
+    if len((_words(desc) - _words(title)) & _words(j.get("Plot"))) < MIN_MATCH:
         return 0
     y = (j.get("Year") or "")[:4]
     return int(y) if y.isdigit() else 0
@@ -265,7 +277,9 @@ def lookup_year(title, desc="", region="us"):
             res = None
         if res is None:
             return None                                # network/API trouble: try next run
-        want, dw = _norm_t(title), _words(desc)
+        # words of the title itself don't count as evidence ("Game of the Week",
+        # "Shopping", "Swimsuit" all repeat their title in the description)
+        want, dw = _norm_t(title), _words(desc) - _words(title)
         cands = [m for m in res if (m.get("release_date") or "")[:4].isdigit()
                  and want in (_norm_t(m.get("title")), _norm_t(m.get("original_title")))]
         scored = sorted(((len(dw & _words(m.get("overview"))), m.get("popularity") or 0, m) for m in cands),
@@ -438,6 +452,10 @@ def build_region(region, xff):
                 _nums.setdefault((cid0, show0, s0), set()).add(n0)
 
     music_cids = {c["id"] for c in channels if MUSIC_CLIP_RE.search(c["name"])}
+    # channels whose Pluto category can't hold films: no TMDB/OMDb year lookups there
+    nofilm_cids = {c["id"] for c in channels
+                   if c["id"] in music_cids or NOFILM_CAT_RE.search(c.get("group") or "")
+                   or NOFILM_NAME_RE.search(c["name"])}
     if music_cids:
         print(f"    {len(music_cids)} music-video channels: no S/E")
 
@@ -482,7 +500,7 @@ def build_region(region, xff):
                 season = number = None                    # clip playlists: no S/E
             if is_movie(ep, series):
                 # movies: title + year, no sub-title / episode-num
-                yr = movie_year(ep, series) or lookup_year(title, desc, region)
+                yr = movie_year(ep, series) or (None if cid in nofilm_cids else lookup_year(title, desc, region))
                 p += f'<title lang="en">{esc(add_year(title, yr))}</title>'
             else:
                 p += f'<title lang="en">{esc(title)}</title>'
