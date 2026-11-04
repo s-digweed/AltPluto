@@ -188,7 +188,7 @@ NOFILM_NAME_RE = re.compile(
 TMDB_LANG = {"us": "en-US", "uk": "en-GB", "ca": "en-CA", "de": "de-DE", "fr": "fr-FR",
              "es": "es-ES", "it": "it-IT", "mx": "es-MX", "ar": "es-AR", "cl": "es-CL",
              "br": "pt-BR", "no": "no-NO", "se": "sv-SE", "dk": "da-DK"}
-YEAR_CACHE_VER = "v3"     # bump to throw away old guesses
+YEAR_CACHE_VER = "v4"     # bump to throw away old guesses
 
 def _norm_t(t):
     t = html.unescape(t or "").lower().replace("&", "and")
@@ -235,6 +235,18 @@ YEAR_PIN = {
 }
 _PIN = None      # normalised YEAR_PIN, built on first use
 
+_NOT_NAMES = {"hallmark", "original", "movie", "movies", "hall", "fame", "christmas", "holiday",
+              "new", "york", "los", "angeles", "united", "states", "world", "war", "the", "and"}
+
+def _cast_names(desc):
+    """Surnames of people Pluto mentions, e.g. '(Herbert Lom)' or 'Kevin Costner stars'
+    -> {'lom', 'costner'}. Only First-Last capitalised pairs count."""
+    out = set()
+    for a, b in re.findall(r"\b([A-Z][a-z]+)\s+([A-Z][a-z]{2,})\b", html.unescape(desc or "")):
+        if a.lower() not in _NOT_NAMES and b.lower() not in _NOT_NAMES:
+            out.add(_norm_t(b))
+    return out
+
 def _omdb_year(title, desc):
     """OMDb fallback (English guides only): exact title AND its plot must share
     words with Pluto's description. -> year, 0 (no match), None (not asked)"""
@@ -252,6 +264,15 @@ def _omdb_year(title, desc):
         return 0
     if len((_words(desc) - _words(title)) & _words(j.get("Plot"))) < MIN_MATCH:
         return 0
+    # OMDb only ever returns ONE film per title, so remakes are a trap: Pluto's
+    # "Phantom of the Opera ... Herbert Lom" (1962) matched the 1943 Claude Rains
+    # film on plot words alone. When Pluto names actors, at least one of them
+    # must be in OMDb's cast/crew, otherwise it's a different version.
+    names = _cast_names(desc)
+    if names:
+        credits = _norm_t(" ".join(str(j.get(k) or "") for k in ("Actors", "Director", "Writer", "Plot")))
+        if not any(n in credits for n in names):
+            return 0
     y = (j.get("Year") or "")[:4]
     return int(y) if y.isdigit() else 0
 
