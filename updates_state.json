@@ -424,5 +424,59 @@
    "removed": [],
    "renamed": []
   }
+ },
+ "2026-11-04": {
+  "ar": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "Tastemade",
+     "Tastemade Food"
+    ],
+    [
+     "Tastemade Viajes",
+     "Tastemade Home & Travel"
+    ]
+   ]
+  },
+  "br": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "Tastemade",
+     "Tastemade Food"
+    ]
+   ]
+  },
+  "cl": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "Tastemade",
+     "Tastemade Food"
+    ],
+    [
+     "Tastemade Viajes",
+     "Tastemade Home & Travel"
+    ]
+   ]
+  },
+  "mx": {
+   "added": [],
+   "removed": [],
+   "renamed": [
+    [
+     "Tastemade",
+     "Tastemade Food"
+    ],
+    [
+     "Tastemade Viajes",
+     "Tastemade Home & Travel"
+    ]
+   ]
+  }
  }
 }
