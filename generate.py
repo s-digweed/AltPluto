@@ -173,9 +173,16 @@ _STOP = set("a an the and or of to in on at for with by from his her their its i
             "der die das und ein eine einen einem mit von den dem sich ist auf aus nach als "
             "och det att som med til och den har ikke".split())
 
-# Year lookups only run on channels that can actually carry films. Pluto's own
-# category (any language) or the channel name rules out news, sports, music,
-# shopping, weather, gaming and the like.
+# Year lookups only run on MOVIE channels: Pluto files the channel under a film
+# category (Movies, Películas, Filme, Horror, Westerns...) or its name says so
+# (Hallmark Movies & More, MovieSphere, Cine..., Universal Monsters). Everything
+# else - PBS, docs, reality, news, sports, kids TV - never gets a looked-up year.
+FILM_CAT_RE = re.compile(
+    r"movie|film|pel[ií]cula|cine|kino|horror|terror|thriller|western|action|acci[oó]n|a[cç][aã]o"
+    r"|sci-?fi|ciencia ficci|romance|romcom|crime|krimi", re.I)
+FILM_NAME_RE = re.compile(
+    r"movie|film|pel[ií]cula|cine|kino|cinema|monsters|westerns?\b|action\b|acci[oó]n|horror|terror"
+    r"|thriller|sci-?fi|screen classics|hallmark|lifetime|lionsgate|paramount|mgm|miramax|sony", re.I)
 NOFILM_CAT_RE = re.compile(
     r"news|noticias|nachrichten|notizie|nouvelles|not[ií]cias|nyheter|info"
     r"|sport|deporte|esporte|music|m[uú]sica|musik|musique|shopping|compras"
@@ -188,7 +195,7 @@ NOFILM_NAME_RE = re.compile(
 TMDB_LANG = {"us": "en-US", "uk": "en-GB", "ca": "en-CA", "de": "de-DE", "fr": "fr-FR",
              "es": "es-ES", "it": "it-IT", "mx": "es-MX", "ar": "es-AR", "cl": "es-CL",
              "br": "pt-BR", "no": "no-NO", "se": "sv-SE", "dk": "da-DK"}
-YEAR_CACHE_VER = "v4"     # bump to throw away old guesses
+YEAR_CACHE_VER = "v5"     # bump to throw away old guesses
 
 def _norm_t(t):
     t = html.unescape(t or "").lower().replace("&", "and")
@@ -232,6 +239,7 @@ YEAR_PIN = {
     "It Came from Outer Space": 1953,      # Universal original, not the 2022 remake
     "SvampeBob Firkant": 0,                # SpongeBob series on Nick Norway/Denmark
     "SvampBob Fyrkant": 0,                 # ... and Sweden
+    "Nature": 0,                           # PBS series (Krakatau episode got a film's year)
 }
 _PIN = None      # normalised YEAR_PIN, built on first use
 
@@ -239,13 +247,35 @@ _NOT_NAMES = {"hallmark", "original", "movie", "movies", "hall", "fame", "christ
               "new", "york", "los", "angeles", "united", "states", "world", "war", "the", "and"}
 
 def _cast_names(desc):
-    """Surnames of people Pluto mentions, e.g. '(Herbert Lom)' or 'Kevin Costner stars'
-    -> {'lom', 'costner'}. Only First-Last capitalised pairs count."""
+    """Surnames of actors Pluto credits, the way its blurbs do it:
+    '... composer (Herbert Lom) ...' or 'Dolph Lundgren stars as ...' -> {'lom'} / {'lundgren'}.
+    Plain capitalised pairs ('Muay Thai', 'Secret Service') don't count."""
+    d = html.unescape(desc or "")
     out = set()
-    for a, b in re.findall(r"\b([A-Z][a-z]+)\s+([A-Z][a-z]{2,})\b", html.unescape(desc or "")):
-        if a.lower() not in _NOT_NAMES and b.lower() not in _NOT_NAMES:
+    for inner in re.findall(r"\(([^)]{3,80})\)", d):            # (Herbert Lom) / (Kurt Russell, Goldie Hawn)
+        for a, b in re.findall(r"\b([A-Z][a-z]+)\s+([A-Z][\w'-]{1,})", inner):
+            if a.lower() not in _NOT_NAMES:
+                out.add(_norm_t(b))
+    for a, b in re.findall(r"\b([A-Z][a-z]+)\s+([A-Z][\w'-]+)\s+(?:stars|leads|plays|co-stars)\b", d):
+        if a.lower() not in _NOT_NAMES:
             out.add(_norm_t(b))
     return out
+
+def _tmdb_credits_match(movie_id, names):
+    """True if any of the surnames is in the film's TMDB cast (top 20) or directors.
+    Unknown (no id / API trouble) counts as a match, so a hiccup never blocks a year."""
+    if not movie_id or not TMDB_KEY:
+        return True
+    _year_stats["calls"] += 1
+    try:
+        j = S.get(f"https://api.themoviedb.org/3/movie/{movie_id}/credits", timeout=TIMEOUT,
+                  params={"api_key": TMDB_KEY}).json()
+    except Exception:
+        return True
+    people = [c.get("name", "") for c in (j.get("cast") or [])[:20]]
+    people += [c.get("name", "") for c in (j.get("crew") or []) if c.get("job") == "Director"]
+    blob = _norm_t(" ".join(people))
+    return any(n in blob for n in names)
 
 def _omdb_year(title, desc):
     """OMDb fallback (English guides only): exact title AND its plot must share
@@ -322,8 +352,13 @@ def lookup_year(title, desc="", region="us"):
         scored = sorted(((len(dw & _words(m.get("overview"))), m.get("popularity") or 0, m) for m in cands),
                         key=lambda x: (x[0], x[1]), reverse=True)
         if scored and scored[0][0] >= MIN_MATCH and (len(scored) == 1 or scored[0][0] > scored[1][0]):
-            y = int(scored[0][2]["release_date"][:4])
-            _year_stats["tmdb_found"] += 1
+            best = scored[0][2]
+            # Pluto names an actor? then TMDB's pick must have them in its credits
+            # (stops e.g. Wes Chatham's "Born to Fight" from getting the 1936 film's year)
+            names = _cast_names(desc)
+            if not names or _tmdb_credits_match(best.get("id"), names):
+                y = int(best["release_date"][:4])
+                _year_stats["tmdb_found"] += 1
     asked_omdb = bool(hit and hit.get("o"))
     if not y and english and not asked_omdb:
         oy = _omdb_year(title, desc)
@@ -492,7 +527,8 @@ def build_region(region, xff):
     # channels whose Pluto category can't hold films: no TMDB/OMDb year lookups there
     nofilm_cids = {c["id"] for c in channels
                    if c["id"] in music_cids or NOFILM_CAT_RE.search(c.get("group") or "")
-                   or NOFILM_NAME_RE.search(c["name"])}
+                   or NOFILM_NAME_RE.search(c["name"])
+                   or not (FILM_CAT_RE.search(c.get("group") or "") or FILM_NAME_RE.search(c["name"]))}
     if music_cids:
         print(f"    {len(music_cids)} music-video channels: no S/E")
 
