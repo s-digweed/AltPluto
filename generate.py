@@ -479,6 +479,22 @@ def fix_episode_number(season, number, season_numbers):
 MUSIC_CLIP_RE = re.compile(
     r"^(Vevo|XITE)\b|TikTok Radio|CMT Equal Play|Yo! MTV|Stingray|ZenLIFE"
     r"|^MTV (Biggest Pop|Spankin|Flow Latino|Rocks|Hits|Classic$|[0-9]{2}s)")
+# Ambience channels (fireplaces, scenic loops): a "(2024)" on "Crackling Fireplace"
+# is noise - never add a year there, whoever supplies it.
+AMBIENCE_RE = re.compile(
+    r"fireplace|kamin|chimenea|lareira|yule ?log|aquarium|cityscapes|holidayscapes"
+    r"|landscapes|paisajes|paisagens|zenlife|slow ?tv|ambien", re.I)
+# Sports channels (live or replayed games/matches): Pluto's season/episode numbers
+# there are meaningless (Barça 24H, UFC, NFL Channel...) - no S/E. Pluto's own
+# category or the channel name decides; word boundaries keep "Conflict" (nfl),
+# "Dilemma" (mma) and "BritBox" (box) out.
+SPORTS_CAT_RE = re.compile(r"sport|deporte|esporte", re.I)
+SPORTS_NAME_RE = re.compile(
+    r"\bsports?\b|\bdeportes?\b|\besportes?\b|e-?sports?\b|\bfifa\b|\bnfl\b|\bnba\b|\bnhl\b|\bmlb\b"
+    r"|\bufc\b|\bpga\b|\bdazn\b|\bdarts\b|snooker|\bgolf|\btennis\b|hockey|\brugby\b|\bboxing\b"
+    r"|\bboxeo\b|wrestling|\bwwe\b|\bnxt\b|\btna\b|bar[cç]a\b|real madrid|f[uú]tbol|\bfootball\b"
+    r"|soccer|\bmma\b|bellator|\bpbr\b|cricket|willow|ridepass|nascar|\bf1\b", re.I)
+
 FILLER_SUB_RE = re.compile(r"^(Episode|Episodio|Épisode|Folge|Afsnit|Episódio)\s*\d+$", re.I)
 
 
@@ -529,8 +545,13 @@ def build_region(region, xff):
                    if c["id"] in music_cids or NOFILM_CAT_RE.search(c.get("group") or "")
                    or NOFILM_NAME_RE.search(c["name"])
                    or not (FILM_CAT_RE.search(c.get("group") or "") or FILM_NAME_RE.search(c["name"]))}
+    ambience_cids = {c["id"] for c in channels if AMBIENCE_RE.search(c["name"])}
+    sports_cids = {c["id"] for c in channels
+                   if SPORTS_CAT_RE.search(c.get("group") or "") or SPORTS_NAME_RE.search(c["name"])}
     if music_cids:
         print(f"    {len(music_cids)} music-video channels: no S/E")
+    if sports_cids or ambience_cids:
+        print(f"    {len(sports_cids)} sports channels: no S/E · {len(ambience_cids)} ambience channels: no year")
 
     m3u, ch_meta = [], []
     for c in channels:
@@ -571,7 +592,11 @@ def build_region(region, xff):
                 if FILLER_SUB_RE.match(subtitle.strip()):
                     subtitle = ""
                 season = number = None                    # clip playlists: no S/E
-            if is_movie(ep, series):
+            if cid in sports_cids:
+                season = number = None                    # games/matches: no S/E
+            if cid in ambience_cids:                      # fireplace & co: plain title, nothing else
+                p += f'<title lang="en">{esc(title)}</title>'
+            elif is_movie(ep, series):
                 # movies: title + year, no sub-title / episode-num
                 yr = movie_year(ep, series) or (None if cid in nofilm_cids else lookup_year(title, desc, region))
                 p += f'<title lang="en">{esc(add_year(title, yr))}</title>'
