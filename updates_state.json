@@ -388,5 +388,70 @@
    ],
    "renamed": []
   }
+ },
+ "2026-11-06": {
+  "de": {
+   "added": [
+    "Weihnachtskino"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "dk": {
+   "added": [
+    "Most Haunted"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "es": {
+   "added": [
+    "Big Time Rush",
+    "Zoey 101",
+    "Victorious",
+    "Los padrinos mágicos"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "fr": {
+   "added": [
+    "River Monsters"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "it": {
+   "added": [
+    "Victorious",
+    "Due Fantagenitori",
+    "Big Time Rush",
+    "Avatar",
+    "Zoey 101"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "no": {
+   "added": [
+    "Most Haunted"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "se": {
+   "added": [
+    "Most Haunted"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "us": {
+   "added": [],
+   "removed": [
+    "Dark Shadows"
+   ],
+   "renamed": []
+  }
  }
 }
