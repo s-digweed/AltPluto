@@ -202,5 +202,70 @@
    ],
    "renamed": []
   }
+ },
+ "2026-11-09": {
+  "ar": {
+   "added": [
+    "Claro Sports FAST",
+    "Pluto TV Series de Aventura y Fantasía",
+    "The King of Queens",
+    "La Niñera",
+    "Medium"
+   ],
+   "removed": [
+    "Canal Claro",
+    "Concert Channel"
+   ],
+   "renamed": []
+  },
+  "cl": {
+   "added": [
+    "Claro Sports FAST",
+    "Pluto TV Series de Aventura y Fantasía",
+    "The King of Queens",
+    "La Niñera",
+    "Medium"
+   ],
+   "removed": [
+    "Canal Claro",
+    "Concert Channel"
+   ],
+   "renamed": []
+  },
+  "mx": {
+   "added": [
+    "Claro Sports FAST",
+    "Pluto TV Series de Aventura y Fantasía",
+    "The King of Queens",
+    "La Niñera",
+    "Medium"
+   ],
+   "removed": [
+    "Canal Claro",
+    "Concert Channel"
+   ],
+   "renamed": []
+  },
+  "uk": {
+   "added": [
+    "Charmed"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "us": {
+   "added": [
+    "CBS News Boston"
+   ],
+   "removed": [
+    "CBS News Detroit"
+   ],
+   "renamed": [
+    [
+     "Forever Kids",
+     "Y2Kids TV"
+    ]
+   ]
+  }
  }
 }
