@@ -59,6 +59,11 @@
 "t": 1794070750.3540246,
 "y": 1996
 },
+"v5|30daysofnight|alawmanjoshhartnettandanevershrinkingban": {
+"o": false,
+"t": 1794435940.2913563,
+"y": 2007
+},
 "v5|3daystokill|adyingsecretserviceagentkevincostnerwhow": {
 "o": false,
 "t": 1794156531.1748369,
@@ -638,6 +643,11 @@
 "o": true,
 "t": 1794033698.0084798,
 "y": 2013
+},
+"v5|bebewinanswethreekings|aretiredmusicianhatchesaplantobringhisth": {
+"o": true,
+"t": 1794434745.7617197,
+"y": null
 },
 "v5|becomingsanta|amanisshockedtolearnthattheparentsmichae": {
 "o": false,
@@ -1524,6 +1534,11 @@
 "t": 1793828766.936861,
 "y": 1952
 },
+"v5|derweihnachtsstern|noellewurdeunterdemweihnachtssterngebore": {
+"o": false,
+"t": 1794436283.9362373,
+"y": 2015
+},
 "v5|derweihnachtsurlaub|einenachtclubsngerinausneworleanserzhlte": {
 "o": false,
 "t": 1794182618.2457905,
@@ -1609,6 +1624,11 @@
 "t": 1793863208.0929437,
 "y": 1953
 },
+"v5|dieblauekanone|diepolizistenhanskleiberundharrygrobewac": {
+"o": false,
+"t": 1794436284.8104315,
+"y": 1999
+},
 "v5|diedameundderkiller|tomhealyundseinebhnenshowsindaufderfluch": {
 "o": false,
 "t": 1793863208.0497954,
@@ -1623,6 +1643,11 @@
 "o": false,
 "t": 1794402854.6273615,
 "y": 1933
+},
+"v5|diegoldsuchervonarkansas|alsimgebietdermescaleroindianereinegolda": {
+"o": false,
+"t": 1794436284.9292111,
+"y": 1964
 },
 "v5|diekkenkommen|diejungswollendasendederbundeszeitfeiern": {
 "o": false,
@@ -1663,6 +1688,11 @@
 "o": false,
 "t": 1794119934.9053314,
 "y": 1980
+},
+"v5|diestadtdieweihnachtenverbannte|deralljhrlichedekorationswettbewerbinein": {
+"o": false,
+"t": 1794436285.0421524,
+"y": 2006
 },
 "v5|dietollentantenschlagenzu|rudiundandiverliebensichinzweilebenslust": {
 "o": false,
@@ -1963,6 +1993,11 @@
 "o": false,
 "t": 1793828768.8438778,
 "y": null
+},
+"v5|einschatzzuweihnachten|diepuppenspielerinsloanistpleitealssiefr": {
+"o": false,
+"t": 1794436284.5066676,
+"y": 2018
 },
 "v5|einschlitzohrnamenssantaclaus|nochgarnichtlangeausdemgefngnisentlassen": {
 "o": false,
@@ -2398,6 +2433,11 @@
 "o": false,
 "t": 1794033523.3634298,
 "y": 1934
+},
+"v5|fortress|whenhisoldnemesislaunchesanalloutattacka": {
+"o": false,
+"t": 1794434745.329873,
+"y": 2021
 },
 "v5|frankejesseforadalei|faroesteestreladoporrobloweebillpaxtonba": {
 "o": false,
@@ -2859,6 +2899,11 @@
 "t": 1794358126.177056,
 "y": 2009
 },
+"v5|inherittheviper|forsiblingskipandjosiedealingopioidsisnt": {
+"o": false,
+"t": 1794434746.022211,
+"y": 2019
+},
 "v5|inimigoinvisvel|segundaguerraquatrosoldadosamericanosenc": {
 "o": false,
 "t": 1793902445.5226338,
@@ -2923,6 +2968,11 @@
 "o": false,
 "t": 1794182618.402531,
 "y": 2009
+},
+"v5|islandoflostsouls|whitesuiteddrmoreaucharleslaughtonherdsh": {
+"o": true,
+"t": 1794434745.6144052,
+"y": null
 },
 "v5|itsbeginningtolookalotlikechristmas|hallmarkoriginalmovienewenglandchristmas": {
 "o": false,
@@ -3093,6 +3143,11 @@
 "o": false,
 "t": 1794401496.8899245,
 "y": 2022
+},
+"v5|kissofthevampire|aprofessorcliffordevansinblackrescuesstr": {
+"o": true,
+"t": 1794434746.3312364,
+"y": null
 },
 "v5|knivesout|thecircumstancessurroundingthedeathofcri": {
 "o": false,
@@ -3328,6 +3383,11 @@
 "o": false,
 "t": 1793863207.370865,
 "y": null
+},
+"v5|lifeofcrime|doublecrossesandplottwistsaboundwhenacor": {
+"o": false,
+"t": 1794434746.179615,
+"y": 2013
 },
 "v5|lifeontheline|atexaslinemanjohntravoltaandhiscrewriskt": {
 "o": false,
@@ -3574,6 +3634,11 @@
 "t": 1793827391.901806,
 "y": 2012
 },
+"v5|marauders|fbiagentschristophermelonidavebautistaun": {
+"o": false,
+"t": 1794436106.7555034,
+"y": 2016
+},
 "v5|marrychristmaseinehochzeitkommtseltenallein|diehochzeitsplanerinrachelorganisiertein": {
 "o": false,
 "t": 1794095324.1611369,
@@ -3694,9 +3759,19 @@
 "t": 1794156289.9151533,
 "y": 2015
 },
+"v5|metalcontrametal|ungrupodehombresymujeresvestidosconpesad": {
+"o": false,
+"t": 1794436292.4773974,
+"y": null
+},
 "v5|meuamigovampiro|umjovemvampiroeseuamigoenfrentamumcaador": {
 "o": false,
 "t": 1793999799.7528768,
+"y": null
+},
+"v5|middleofnowhere|whilestayingwithhisuncleforthesummeratro": {
+"o": true,
+"t": 1794436106.5396817,
 "y": null
 },
 "v5|mimascotaesunlen|lavidademiacambiaporcompletocuandosuspad": {
@@ -4114,6 +4189,11 @@
 "t": 1793902203.7903209,
 "y": 2013
 },
+"v5|pawnshopchronicles|anelvisimpersonatormethaddictedwhitesupr": {
+"o": false,
+"t": 1794436105.6595979,
+"y": 2013
+},
 "v5|peacock|amancillianmurphywithmultiplepersonality": {
 "o": true,
 "t": 1793828594.8181152,
@@ -4359,6 +4439,11 @@
 "t": 1794156561.2144253,
 "y": 2019
 },
+"v5|rawdeal|aformerfbiagentturnedsmalltownsheriffagr": {
+"o": false,
+"t": 1794434745.8298311,
+"y": 1986
+},
 "v5|reaccinviva|dosadolescentesseinfiltranenunlaboratori": {
 "o": false,
 "t": 1794208037.8287868,
@@ -4408,6 +4493,11 @@
 "o": false,
 "t": 1794095087.9303524,
 "y": 2010
+},
+"v5|rememberme|emergingsecretsthreatenthebuddingromance": {
+"o": true,
+"t": 1794436105.9380848,
+"y": null
 },
 "v5|renascidadoinferno|umaequipedeestudantespesquisaomapeamento": {
 "o": false,
@@ -4479,6 +4569,11 @@
 "t": 1793828431.5901086,
 "y": 1932
 },
+"v5|roseunterdornen|hotelknigsimonwahlbergistseitjahrenmitde": {
+"o": false,
+"t": 1794436284.7167025,
+"y": null
+},
 "v5|rosewoodlane|sonnyblakerosemcgowanaradiotalkshowthera": {
 "o": false,
 "t": 1794032343.796947,
@@ -4508,6 +4603,11 @@
 "o": false,
 "t": 1794297479.0751257,
 "y": 2014
+},
+"v5|safehaven|darksecretsintrudeontheblossomingromance": {
+"o": false,
+"t": 1794436105.5647821,
+"y": 2013
 },
 "v5|safe|jasonstathamplaysanexcagefighterwhohelps": {
 "o": true,
@@ -4558,6 +4658,11 @@
 "o": false,
 "t": 1793971861.2777562,
 "y": null
+},
+"v5|schluakkord|imjahr1960mchtedielibrettistinlindavalor": {
+"o": false,
+"t": 1794436284.3781555,
+"y": 1936
 },
 "v5|schonwiederweihnachten|nacheinemsturzanheiligabendwirdjorgeohnm": {
 "o": false,
@@ -4714,6 +4819,11 @@
 "t": 1794069231.393601,
 "y": 2022
 },
+"v5|sitansolohubiera|ayekaterinakolesnikovade35aoslepareceque": {
+"o": false,
+"t": 1794436292.240644,
+"y": null
+},
 "v5|sitansolohubiera|runtimeestunuevaofertadeentretenimientod": {
 "o": false,
 "t": 1794358160.287819,
@@ -4818,6 +4928,11 @@
 "o": false,
 "t": 1794119833.5947638,
 "y": 2015
+},
+"v5|springbreakers|fourcollegefriendsvanessahudgensselenago": {
+"o": false,
+"t": 1794436106.1946154,
+"y": 2013
 },
 "v5|sssssss|asnakescientiststrothermartinturnshisdau": {
 "o": false,
@@ -5069,6 +5184,11 @@
 "t": 1794333926.5977583,
 "y": 2012
 },
+"v5|thecoloroftime|ineinerartpoetischemroadtriperinnertsich": {
+"o": false,
+"t": 1794436284.2434416,
+"y": 2012
+},
 "v5|thecompanyyoukeep|afterareportershialabeoufuncovershisreal": {
 "o": false,
 "t": 1793863124.6486144,
@@ -5088,6 +5208,11 @@
 "o": false,
 "t": 1794069231.8511245,
 "y": 2015
+},
+"v5|thecondemned|adeathrowinmatesteveaustinmustfightninep": {
+"o": false,
+"t": 1794434746.645894,
+"y": 2007
 },
 "v5|thecondemned|ninecriminalsareplacedonanislandonlythel": {
 "o": true,
@@ -5219,6 +5344,11 @@
 "t": 1793902204.5291362,
 "y": 2015
 },
+"v5|thefloatingcastlefestungdersamurai|japan1590dererfolgreichefeldherrhideyosh": {
+"o": false,
+"t": 1794436283.8109133,
+"y": 2012
+},
 "v5|theflyingscot|ronnieearningverylittlefromhisownexploit": {
 "o": false,
 "t": 1793928038.5974958,
@@ -5324,6 +5454,16 @@
 "t": 1793971517.940728,
 "y": 2007
 },
+"v5|thehyperionsdiesuperheldenakademie|imjahr1960erfindetprofessormandelbaumein": {
+"o": false,
+"t": 1794436284.1416426,
+"y": null
+},
+"v5|theillusionist|mastermagicianeisenheimvieswiththeheirto": {
+"o": false,
+"t": 1794436106.9015555,
+"y": 2006
+},
 "v5|theimaginariumofdrparnassus|afteracarnivaltroupesaveshislifeamanheat": {
 "o": true,
 "t": 1794358126.1362405,
@@ -5347,6 +5487,16 @@
 "v5|theinvisibleman|theserumthatmakesascientistclauderainsin": {
 "o": true,
 "t": 1794401497.4012594,
+"y": null
+},
+"v5|theinvisibleray|ascientistbelalugosiseeksanantidoteforar": {
+"o": true,
+"t": 1794434745.1898565,
+"y": 1936
+},
+"v5|theinvisiblewoman|ascrewyprofessorsexperimentswithagorgeou": {
+"o": true,
+"t": 1794434745.4865959,
 "y": null
 },
 "v5|theironlady|margaretthatchermerylstreepbreaksthrough": {
@@ -5404,6 +5554,11 @@
 "t": 1794358126.2693083,
 "y": 2010
 },
+"v5|themadghoul|amadscientistgeorgezuccoturnshisassistan": {
+"o": false,
+"t": 1794434746.479558,
+"y": 1943
+},
 "v5|themaltastory|atributetothepeopleanddefendersofthebesi": {
 "o": true,
 "t": 1794033523.952648,
@@ -5429,6 +5584,11 @@
 "t": 1794297478.8017466,
 "y": 2021
 },
+"v5|themortalinstrumentscityofbones|aseeminglyordinaryteenagerlilycollinsdis": {
+"o": false,
+"t": 1794435939.8719888,
+"y": 2013
+},
 "v5|thenannydiaries|acollegestudentscarlettjohanssontriestom": {
 "o": false,
 "t": 1793928216.318792,
@@ -5449,6 +5609,11 @@
 "t": 1793828595.4021442,
 "y": 2010
 },
+"v5|thenightcrew|desperatebountyhuntershavetosurvivetheni": {
+"o": false,
+"t": 1794436106.0249434,
+"y": 2015
+},
 "v5|theoperationimsumpfderkorruption|diebrasilianischebundespolizeisprteinenm": {
 "o": false,
 "t": 1793828769.0547404,
@@ -5468,6 +5633,11 @@
 "o": false,
 "t": 1793863212.1933105,
 "y": null
+},
+"v5|theperksofbeingawallflower|sociallyawkwardcharlieisawallflowerwatch": {
+"o": false,
+"t": 1794436106.3382874,
+"y": 2012
 },
 "v5|theprivatelifeofhenryviii|aportrayalofthe16thcenturyenglishmonarch": {
 "o": true,
@@ -5623,6 +5793,11 @@
 "o": false,
 "t": 1794070393.6178215,
 "y": 1944
+},
+"v5|thewayofthegun|twocriminalsgetmorethantheybargainedfora": {
+"o": false,
+"t": 1794434745.9000235,
+"y": 2000
 },
 "v5|theweddingyear|acommitmentphobic27yearoldsrelationshipi": {
 "o": false,
@@ -5959,6 +6134,11 @@
 "t": 1793928404.277864,
 "y": 2016
 },
+"v5|vampireacademy|atasecretboardingschoolahalfhumanhalfvam": {
+"o": false,
+"t": 1794435940.0398688,
+"y": 2014
+},
 "v5|vampirejournals|zacherypermetvampiroepermetumanoedopoche": {
 "o": false,
 "t": 1794119941.25933,
@@ -6028,6 +6208,11 @@
 "o": false,
 "t": 1793971685.1717331,
 "y": 2015
+},
+"v5|vlligverrckteweihnachten|dieteenagerkaraundjessielernensichwhrend": {
+"o": false,
+"t": 1794436284.0274692,
+"y": 2017
 },
 "v5|vocesinocentes|chavaunniode11aosqueviveenlaperiferiades": {
 "o": false,
@@ -6103,6 +6288,11 @@
 "o": false,
 "t": 1794033882.8373666,
 "y": 2020
+},
+"v5|weihnachtenmitderfamilieberlebenistalles|dieschwesternmirandaundlylafindensichzum": {
+"o": false,
+"t": 1794436284.606235,
+"y": null
 },
 "v5|weihnachtenmitmrperfect|dierechtsanwltinkellykehrtnachhausezurck": {
 "o": false,
