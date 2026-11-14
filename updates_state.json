@@ -1,24 +1,4 @@
 {
- "2026-11-07": {
-  "ca": {
-   "added": [
-    "Zuffa Boxing Prelims"
-   ],
-   "removed": [
-    "Zuffa Boxing Prelims"
-   ],
-   "renamed": []
-  },
-  "us": {
-   "added": [
-    "Zuffa Boxing Prelims"
-   ],
-   "removed": [
-    "Zuffa Boxing Prelims"
-   ],
-   "renamed": []
-  }
- },
  "2026-11-09": {
   "ar": {
    "added": [
@@ -122,6 +102,15 @@
   "es": {
    "added": [
     "Paola Minerva"
+   ],
+   "removed": [],
+   "renamed": []
+  }
+ },
+ "2026-11-14": {
+  "us": {
+   "added": [
+    "Zuffa Boxing Prelims"
    ],
    "removed": [],
    "renamed": []
