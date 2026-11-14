@@ -108,11 +108,20 @@
   }
  },
  "2026-11-14": {
+  "ca": {
+   "added": [],
+   "removed": [
+    "Zuffa Boxing Prelims"
+   ],
+   "renamed": []
+  },
   "us": {
    "added": [
     "Zuffa Boxing Prelims"
    ],
-   "removed": [],
+   "removed": [
+    "Zuffa Boxing Prelims"
+   ],
    "renamed": []
   }
  }
