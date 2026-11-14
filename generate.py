@@ -75,6 +75,12 @@ S.headers.update({
 })
 TIMEOUT = 30
 
+# Pluto series names that arrive truncated or wrong -> name shown in the guide.
+# Display-only: internal keys (episode-number decoding, year lookup) keep Pluto's name.
+TITLE_FIX = {
+    "Sabrina The Animated": "Sabrina: The Animated Series",   # Y2Kids TV (US)
+}
+
 
 def auth(token, xff):
     h = {"authorization": f"Bearer {token}"}
@@ -583,6 +589,7 @@ def build_region(region, xff):
             ep = e.get("episode", {}) or {}
             series = ep.get("series", {}) or {}
             title = series.get("name") or e.get("title", "")
+            shown = TITLE_FIX.get(title, title)           # display-only fix for Pluto's truncated names
             subtitle = ep.get("name", "") or ""
             season, number = ep.get("season"), ep.get("number")
             desc = ep.get("description", "") or ""
@@ -595,13 +602,13 @@ def build_region(region, xff):
             if cid in sports_cids:
                 season = number = None                    # games/matches: no S/E
             if cid in ambience_cids:                      # fireplace & co: plain title, nothing else
-                p += f'<title lang="en">{esc(title)}</title>'
+                p += f'<title lang="en">{esc(shown)}</title>'
             elif is_movie(ep, series):
                 # movies: title + year, no sub-title / episode-num
                 yr = movie_year(ep, series) or (None if cid in nofilm_cids else lookup_year(title, desc, region))
-                p += f'<title lang="en">{esc(add_year(title, yr))}</title>'
+                p += f'<title lang="en">{esc(add_year(shown, yr))}</title>'
             else:
-                p += f'<title lang="en">{esc(title)}</title>'
+                p += f'<title lang="en">{esc(shown)}</title>'
                 if subtitle and subtitle != title:
                     p += f'<sub-title lang="en">{esc(subtitle)}</sub-title>'
                 # season 1 is only decoded for proper episodes (with an episode title):
