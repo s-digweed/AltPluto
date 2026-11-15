@@ -1054,6 +1054,11 @@
 "t": 1794509552.35472,
 "y": null
 },
+"v5|carefulwhatyouwishfor|complicationsarisewhenayoungmannickjonas": {
+"o": false,
+"t": 1794725828.5327227,
+"y": 2015
+},
 "v5|carjacked|abankrobberstephendorffcommandeersacaroc": {
 "o": false,
 "t": 1794402518.2396193,
@@ -1644,6 +1649,11 @@
 "t": 1794333926.5291388,
 "y": null
 },
+"v5|deadwater|alseinehemaligerusmarinesoldatmitseinerf": {
+"o": false,
+"t": 1794725850.6143832,
+"y": 2019
+},
 "v5|dearsantaeinereisezumnordpol|einefamiliebeschlietweihnachteninderweit": {
 "o": false,
 "t": 1794182618.1338487,
@@ -2009,6 +2019,11 @@
 "t": 1794297666.2246754,
 "y": null
 },
+"v5|disorientation|acollegestudentisshockedwhenhemeetshisne": {
+"o": false,
+"t": 1794725828.5455265,
+"y": 2012
+},
 "v5|divergent|inafuturesocietypeoplearedividedintofact": {
 "o": false,
 "t": 1793828430.7126055,
@@ -2043,6 +2058,11 @@
 "o": false,
 "t": 1793999791.6624687,
 "y": 2022
+},
+"v5|dogeatdog|troymaddogunddieselsindgeradeausdemgefng": {
+"o": false,
+"t": 1794725850.5152125,
+"y": 2016
 },
 "v5|domkallarmegtrinitydjvulenshgrahand|hanharenkftlikavloljadsomhansrevolverhan": {
 "o": false,
@@ -2133,6 +2153,11 @@
 "o": false,
 "t": 1793902203.4956489,
 "y": 2012
+},
+"v5|dredd|umaprostitutaqueviroutraficantededrogasp": {
+"o": false,
+"t": 1794725857.6655073,
+"y": null
 },
 "v5|dredd|unaprostitutaconvertidaennarcotraficante": {
 "o": false,
@@ -2729,6 +2754,11 @@
 "t": 1794156601.6150734,
 "y": 2010
 },
+"v5|fairfieldroadstraeinsglck|dergrostdternoahmcmanusziehtsichnachmehr": {
+"o": false,
+"t": 1794725850.62882,
+"y": 2010
+},
 "v5|fairhaven|threelongtimefriendstomobrienchrismessin": {
 "o": false,
 "t": 1794156560.962895,
@@ -3093,6 +3123,11 @@
 "o": false,
 "t": 1793827384.749395,
 "y": 2019
+},
+"v5|hellraiserjuicio|tresdetectivesintentanresolverunasesinat": {
+"o": false,
+"t": 1794725855.1332,
+"y": 2018
 },
 "v5|henryviiiandhissixwives|fromhisdeathbedenglandsmonarchrecallsthe": {
 "o": true,
@@ -3499,6 +3534,11 @@
 "t": 1793970371.6035907,
 "y": 2018
 },
+"v5|jinglebelle|asongwriterrunsintoanoldflamewhensheretu": {
+"o": false,
+"t": 1794725622.204148,
+"y": 2018
+},
 "v5|johnnymnemonic|corporatethugschaseaguycarryingclassifie": {
 "o": false,
 "t": 1793828593.2721086,
@@ -3587,6 +3627,11 @@
 "v5|kickass|davelizewskimakesthesimpledecisiontobeco": {
 "o": false,
 "t": 1793902204.5441916,
+"y": 2010
+},
+"v5|kickass|despiteacompletelackofextraordinarypower": {
+"o": true,
+"t": 1794725828.5051358,
 "y": 2010
 },
 "v5|kickboxer2theroadback|davidhasgivenupcompetitionandisrunningak": {
@@ -3727,6 +3772,11 @@
 "v5|lafortaleza|unexagentedelaciaysuhijoquedanatrapadose": {
 "o": false,
 "t": 1794033900.6212516,
+"y": null
+},
+"v5|lafuerzaintil|renequienesunprofesionistaadineradoamigo": {
+"o": false,
+"t": 1794725855.1180599,
 "y": null
 },
 "v5|laggies|caughtinapanicoverherboyfriendsmarriagep": {
@@ -4142,6 +4192,11 @@
 "v5|lostatchristmasweihnachtsliebewiderwillen|zweisinglesstrandenanheiligabendwegenein": {
 "o": false,
 "t": 1793971860.5103738,
+"y": null
+},
+"v5|lostresmosqueteros|dartagnanjuntocontresexlegendariosmosque": {
+"o": false,
+"t": 1794725855.0461535,
 "y": null
 },
 "v5|loucasporamorviciadasemdinheiro|depoisqueseumaridoperdeoempregoumadonade": {
@@ -4834,6 +4889,11 @@
 "t": 1793828800.909598,
 "y": null
 },
+"v5|opreodavida|ummdicolutaparasalvarsuafamliaemumasitua": {
+"o": false,
+"t": 1794725857.7170064,
+"y": 2017
+},
 "v5|oquefazer|paraumhomemirritadoeamarguradoseumdicodi": {
 "o": false,
 "t": 1794297694.1225095,
@@ -5418,6 +5478,11 @@
 "o": false,
 "t": 1793828800.1893291,
 "y": null
+},
+"v5|russischroulette|journalistinkatharinawagnerbesuchtinstpe": {
+"o": false,
+"t": 1794725850.543475,
+"y": 2012
 },
 "v5|sabotage|membersofanelitedeataskforceareeliminate": {
 "o": false,
@@ -6028,6 +6093,11 @@
 "o": true,
 "t": 1793863124.7572079,
 "y": 2013
+},
+"v5|texasgeneralhoustonskampffrdieunabhngigkeit|dersoldatundstaatsmannsamhoustonbeteilig": {
+"o": false,
+"t": 1794725850.6638765,
+"y": null
 },
 "v5|texaskampfumdiefreiheit|1821bekommtstephenaustindenauftragtexasm": {
 "o": false,
@@ -6814,6 +6884,26 @@
 "t": 1793827384.507526,
 "y": null
 },
+"v5|thesubstitute2schoolsout|amanposesasateacherinordertodiscoverthet": {
+"o": false,
+"t": 1794725622.2197304,
+"y": 1998
+},
+"v5|thesubstitute3winnertakesall|amercenaryposesasateachertogetclosetoaga": {
+"o": false,
+"t": 1794725622.2319157,
+"y": 1999
+},
+"v5|thesubstitute4failureisnotanoption|amercenaryposesasateachertoweedoutaneona": {
+"o": true,
+"t": 1794725622.4446442,
+"y": null
+},
+"v5|thesubstitute|aciaagentinvestigatingaviolentganggoesun": {
+"o": false,
+"t": 1794725622.098293,
+"y": 1996
+},
 "v5|thesuper|abereavedformercoptakesajobasasuperinten": {
 "o": false,
 "t": 1794509368.2200637,
@@ -6863,6 +6953,11 @@
 "o": false,
 "t": 1793902391.2752166,
 "y": 2009
+},
+"v5|theunholyfour|ayoungmanwhohaslosthismemoryescapesfromp": {
+"o": false,
+"t": 1794725807.8289022,
+"y": 1970
 },
 "v5|thevault|duesorelletentanounarapinainbancapersalv": {
 "o": false,
@@ -7279,6 +7374,11 @@
 "t": 1794119941.25933,
 "y": 1997
 },
+"v5|vampu|anoldvampirewithnoteethturnsacollegestud": {
+"o": false,
+"t": 1794725828.385371,
+"y": 2013
+},
 "v5|venganzamortal|thrillerdecienciaficcinsobreunresortdefa": {
 "o": false,
 "t": 1793828790.5118718,
@@ -7333,6 +7433,11 @@
 "o": false,
 "t": 1794156289.4902227,
 "y": 2019
+},
+"v5|vingana|deancaineoastrodewwwbigshowestrelamemven": {
+"o": false,
+"t": 1794725857.7299929,
+"y": null
 },
 "v5|viruslinfernodeimortiviventi|avvertitodaungruppodiattivistiperlambien": {
 "o": false,
