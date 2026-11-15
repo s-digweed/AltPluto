@@ -514,6 +514,11 @@
 "t": 1793928038.314495,
 "y": 1975
 },
+"v5|annaoperigotemnome|portrsdabelezaestonteantedeannaexisteums": {
+"o": false,
+"t": 1794701540.0155225,
+"y": 2019
+},
 "v5|anovafriadodrago|comjackiechandoisjovenslideramestudantes": {
 "o": false,
 "t": 1794358165.557443,
@@ -1543,6 +1548,11 @@
 "o": false,
 "t": 1794533429.3704224,
 "y": null
+},
+"v5|dasgeheimnisdergelbenmnche|sandrasolleingroesvermgenerbenihrvormund": {
+"o": false,
+"t": 1794701527.5440414,
+"y": 1966
 },
 "v5|dasgeschenkderweihnacht|beidenbarnettsdrohttrotzfestlicherstimmu": {
 "o": false,
@@ -3399,6 +3409,11 @@
 "t": 1794033883.1292355,
 "y": 2025
 },
+"v5|ipman|thelifestoryofyipmanthefirstpersontoteac": {
+"o": false,
+"t": 1794700802.520869,
+"y": 2008
+},
 "v5|irmandadedejustia|keanureeveskiefersutherlandebillyzanesoo": {
 "o": false,
 "t": 1794675353.138824,
@@ -3939,6 +3954,11 @@
 "t": 1793863207.370865,
 "y": null
 },
+"v5|liebeswahn|beidemgescheitertenversucheinennotgeland": {
+"o": false,
+"t": 1794701527.425017,
+"y": null
+},
 "v5|lifeofcrime|doublecrossesandplottwistsaboundwhenacor": {
 "o": false,
 "t": 1794434746.179615,
@@ -4138,6 +4158,11 @@
 "o": false,
 "t": 1793828781.4477086,
 "y": 2011
+},
+"v5|lovesick|amantriestopreventhisstrangepsychologica": {
+"o": false,
+"t": 1794701444.481323,
+"y": 2016
 },
 "v5|loveweddingsandotherdisasters|afussycelebritycatererablindwomanatourbu": {
 "o": false,
@@ -4498,6 +4523,11 @@
 "o": false,
 "t": 1793928215.8614337,
 "y": 2012
+},
+"v5|morgensindwirfrei|deriraneromidhatalsdissidentinderddrgele": {
+"o": false,
+"t": 1794701527.3730597,
+"y": 2019
 },
 "v5|morirseendomingo|uncadvervendidounromanceinesperadoyunneg": {
 "o": false,
@@ -5059,6 +5089,11 @@
 "t": 1794533316.8348413,
 "y": 2014
 },
+"v5|powerrangers|agroupofhighschoolstudentswhoareinfusedw": {
+"o": false,
+"t": 1794701444.3314424,
+"y": 2017
+},
 "v5|preciouscargo|afteraheistgoeswrongtwothievesandexlover": {
 "o": false,
 "t": 1793827392.9918103,
@@ -5273,6 +5308,11 @@
 "o": false,
 "t": 1794182631.4164908,
 "y": 2015
+},
+"v5|rendirsejams|umadolescenterebeldecomeaemumanovaescola": {
+"o": false,
+"t": 1794701539.9117947,
+"y": null
 },
 "v5|resuelveelcaso|consusansarandoncuandosumadreviajaunania": {
 "o": false,
@@ -5688,6 +5728,11 @@
 "o": false,
 "t": 1794533213.4686024,
 "y": 2017
+},
+"v5|snitch|tosavehisteenagesonfromanunjustprisonsen": {
+"o": false,
+"t": 1794701444.4328482,
+"y": 2013
 },
 "v5|snowblind|diezivilisationistdurchdenbeginneinerneu": {
 "o": false,
@@ -6179,6 +6224,11 @@
 "t": 1794156561.2328725,
 "y": 2017
 },
+"v5|thecurseofsleepingbeauty|amaninheritsanancestralmansionandanancie": {
+"o": false,
+"t": 1794701444.524975,
+"y": 2016
+},
 "v5|thecurseofthewerewolf|thesonofaservantassaultedbyabeggarbecome": {
 "o": false,
 "t": 1794296078.2536297,
@@ -6203,6 +6253,11 @@
 "o": true,
 "t": 1794296078.5365143,
 "y": null
+},
+"v5|thedefender|asterrorragesahiddenextremiststrialcould": {
+"o": false,
+"t": 1794700802.5759351,
+"y": 2004
 },
 "v5|thedisappearanceofsusancoxpowell|ayoungmotherinutahvanishesandtheonlysusp": {
 "o": true,
@@ -6814,6 +6869,11 @@
 "t": 1793999788.2073188,
 "y": 2017
 },
+"v5|thewarlords|dreifreundekmpfenwhrenddertaipingrebelli": {
+"o": false,
+"t": 1794701527.4921994,
+"y": 2007
+},
 "v5|thewayahead|alieutenantmouldsagroupofbritishcivilian": {
 "o": false,
 "t": 1794070393.6178215,
@@ -6853,6 +6913,11 @@
 "o": true,
 "t": 1794576296.5326564,
 "y": null
+},
+"v5|theycallmemistertibbs|sidneypoitierasdetectivevirgiltibbsbattl": {
+"o": false,
+"t": 1794701444.566581,
+"y": 1970
 },
 "v5|thissportinglife|ayorkshirecoalmineraimstobetterhimselfby": {
 "o": true,
@@ -6908,6 +6973,11 @@
 "o": false,
 "t": 1793971889.9737015,
 "y": 2016
+},
+"v5|tothewonder|amanbenaffleckreconnectswithachildhoodsw": {
+"o": true,
+"t": 1794701445.2251072,
+"y": 2012
 },
 "v5|toxin|themilitaryusesanoldwomanshousetotestade": {
 "o": true,
@@ -7128,6 +7198,11 @@
 "o": false,
 "t": 1794182626.320229,
 "y": 2021
+},
+"v5|undsantanattetsiealle|zweiverbrechersindaufderjagdnachbeutevon": {
+"o": false,
+"t": 1794701527.6003814,
+"y": 1970
 },
 "v5|undtglichgrtderweihnachtsmann|billyerlebteinmiserablesweihnachtenerver": {
 "o": false,
@@ -7479,6 +7554,11 @@
 "t": 1793999646.3014476,
 "y": 2021
 },
+"v5|winchester|ensconcedinhersprawlingsanjosecalifornia": {
+"o": false,
+"t": 1794701444.6454704,
+"y": 2018
+},
 "v5|wingsoffreedomaufdenschwingenderfreiheit|ausdersichtseineschauffeurswirddiegeschi": {
 "o": false,
 "t": 1793902438.158662,
@@ -7523,6 +7603,11 @@
 "o": false,
 "t": 1794070749.8570588,
 "y": 2022
+},
+"v5|wolferwirddichholen|alsbeieinerfriedensmissioninspestgeplagt": {
+"o": false,
+"t": 1794701527.6685588,
+"y": 2019
 },
 "v5|wonder|bornwithfacialdifferencesthatupuntilnowh": {
 "o": false,
