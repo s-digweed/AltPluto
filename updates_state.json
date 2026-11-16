@@ -75,5 +75,116 @@
    "removed": [],
    "renamed": []
   }
+ },
+ "2026-11-16": {
+  "ar": {
+   "added": [
+    "Pluto TV Cine Navidad"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "cl": {
+   "added": [
+    "Pluto TV Cine Navidad"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "de": {
+   "added": [
+    "BBC Earth",
+    "Voll daneben, voll im Leben"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "dk": {
+   "added": [
+    "Pluto TV Pejs",
+    "Pluto TV De bedste julespecials",
+    "Vore værste år: Jul med familien Bundy",
+    "Pluto TV Julehygge",
+    "Det store eksperiment",
+    "Frasiers herlige højtider"
+   ],
+   "removed": [],
+   "renamed": [
+    [
+     "Top Gear",
+     "BBC Top Gear"
+    ]
+   ]
+  },
+  "es": {
+   "added": [
+    "Slam Dunk"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "fr": {
+   "added": [
+    "Coeur Océan"
+   ],
+   "removed": [
+    "Ciné Gore & Slasher by Pluto TV"
+   ],
+   "renamed": []
+  },
+  "it": {
+   "added": [
+    "Cine Peplum"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "mx": {
+   "added": [
+    "Pluto TV Cine Navidad"
+   ],
+   "removed": [],
+   "renamed": []
+  },
+  "no": {
+   "added": [
+    "Det store eksperimentet",
+    "Pluto TV Peis",
+    "Pluto TV Julekos",
+    "Pluto TV De beste julespesialene"
+   ],
+   "removed": [],
+   "renamed": [
+    [
+     "Top Gear",
+     "BBC Top Gear"
+    ]
+   ]
+  },
+  "se": {
+   "added": [
+    "Pluto TV Jul",
+    "Pluto TV Julmys",
+    "Våra värsta år: Jul med familjen Bundy",
+    "Det stora experimentet",
+    "Pluto TV Eldstad"
+   ],
+   "removed": [],
+   "renamed": [
+    [
+     "Top Gear",
+     "BBC Top Gear"
+    ]
+   ]
+  },
+  "us": {
+   "added": [
+    "CBS News Miami"
+   ],
+   "removed": [
+    "CBS News Boston"
+   ],
+   "renamed": []
+  }
  }
 }
