@@ -1254,6 +1254,11 @@
 "t": 1793862434.515785,
 "y": 2017
 },
+"v5|christmaseverafter|sparksflyduringchristmastimewhenaromance": {
+"o": false,
+"t": 1794812216.73817,
+"y": 2020
+},
 "v5|christmaseverlasting|hallmarkhalloffamelucyheadshometohearthe": {
 "o": false,
 "t": 1793862434.5523117,
@@ -1522,6 +1527,11 @@
 "v5|creaturefromtheblacklagoon|fossilhuntersrichardcarlsonjuliaadamsric": {
 "o": true,
 "t": 1794296077.4419153,
+"y": null
+},
+"v5|crimenverdadero|unaadolescenteenganchadaconlasrevistastr": {
+"o": false,
+"t": 1794812907.494669,
 "y": null
 },
 "v5|criminal|hopingtostopadiabolicalplottheciaimplant": {
@@ -2899,6 +2909,11 @@
 "t": 1793827383.9709623,
 "y": 2012
 },
+"v5|findingmsright|damiterdietochtereinesrabbisheiratenkann": {
+"o": false,
+"t": 1794812900.7738173,
+"y": 2012
+},
 "v5|firstkill|wallstreetbrokerwillandhisyoungsondannyw": {
 "o": false,
 "t": 1794257855.9140372,
@@ -4004,6 +4019,11 @@
 "t": 1794297683.269624,
 "y": null
 },
+"v5|lasmanosdeldiablo|mientrasinvestigaalasesinoenserielamanod": {
+"o": false,
+"t": 1794812907.3959124,
+"y": 2002
+},
 "v5|lasoscurasprimaveras|unapasinprohibidacambiarsusvidascuandoll": {
 "o": false,
 "t": 1794070767.0303717,
@@ -4288,6 +4308,11 @@
 "o": false,
 "t": 1793828787.6788268,
 "y": 2020
+},
+"v5|losjinetesdelapocalipsis|undetectiveinvestigaunaseriedeasesinatos": {
+"o": false,
+"t": 1794812907.4652224,
+"y": null
 },
 "v5|loslocos|imagnatevivirenunpequeopueblodondetodoes": {
 "o": false,
@@ -5049,6 +5074,11 @@
 "t": 1793828801.6061978,
 "y": 2020
 },
+"v5|osmercenrios2|onovotrabalhodosmercenariossetransformae": {
+"o": false,
+"t": 1794812911.4484372,
+"y": null
+},
 "v5|ospunhosdodrago|comjackiechanumalunodekungfuenfrentagngs": {
 "o": false,
 "t": 1794182631.4880784,
@@ -5318,6 +5348,11 @@
 "o": false,
 "t": 1794156289.8546293,
 "y": 2007
+},
+"v5|primal|nicolascagestarsasawildlifecollectorhunt": {
+"o": false,
+"t": 1794812216.844136,
+"y": 2019
 },
 "v5|primercontacto|elastrnomozanezaminskycreequecapturounru": {
 "o": false,
@@ -5629,6 +5664,11 @@
 "t": 1793828800.1893291,
 "y": null
 },
+"v5|russischroulette|beidersuchenachihrementfhrtensohngertkat": {
+"o": false,
+"t": 1794812900.7040873,
+"y": 2012
+},
 "v5|russischroulette|journalistinkatharinawagnerbesuchtinstpe": {
 "o": false,
 "t": 1794725850.543475,
@@ -5743,6 +5783,11 @@
 "o": false,
 "t": 1794469354.1929667,
 "y": null
+},
+"v5|security|asecurityguardprotectsanelevenyearoldgir": {
+"o": false,
+"t": 1794812843.5992916,
+"y": 2017
 },
 "v5|segundocontacto|luegodequezaneeshalladomuertocincoperson": {
 "o": false,
@@ -6499,6 +6544,11 @@
 "t": 1793999519.5469167,
 "y": 1942
 },
+"v5|thedeadhatetheliving|alcunigiovanicineastisiintroduconoinunos": {
+"o": false,
+"t": 1794812905.416378,
+"y": null
+},
 "v5|thedeadlymantis|auscolonelcraigstevensandapaleontologist": {
 "o": true,
 "t": 1794296078.5365143,
@@ -6694,6 +6744,11 @@
 "t": 1793828782.56932,
 "y": 2015
 },
+"v5|thehorribledrbones|unmedicofolleconduceesperimentiraccapric": {
+"o": false,
+"t": 1794812905.356554,
+"y": null
+},
 "v5|thehungergamescatchingfire|katnissandpeetabecometargetsofthecapitol": {
 "o": false,
 "t": 1793998702.7996898,
@@ -6788,6 +6843,11 @@
 "o": false,
 "t": 1793970372.578094,
 "y": 2017
+},
+"v5|thekillereye|unesperimentoscientificofiniscenelcaosqu": {
+"o": false,
+"t": 1794812905.453665,
+"y": null
 },
 "v5|thelaststand|arnoldschwarzeneggerplaysthesheriffofasm": {
 "o": false,
@@ -7163,6 +7223,11 @@
 "o": false,
 "t": 1794701527.4921994,
 "y": 2007
+},
+"v5|thewarwithgrandpa|forcedtogiveuphisroomtohisgrandfatherasc": {
+"o": false,
+"t": 1794812843.5291617,
+"y": 2020
 },
 "v5|thewayahead|alieutenantmouldsagroupofbritishcivilian": {
 "o": false,
