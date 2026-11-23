@@ -159,6 +159,15 @@
     "Top Chef"
    ],
    "renamed": []
+  },
+  "us": {
+   "added": [
+    "CBS News Texas"
+   ],
+   "removed": [
+    "CBS News Miami"
+   ],
+   "renamed": []
   }
  }
 }
