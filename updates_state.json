@@ -162,10 +162,31 @@
   }
  },
  "2026-11-24": {
+  "dk": {
+   "added": [],
+   "removed": [
+    "Crazy Ex-Girlfriend"
+   ],
+   "renamed": []
+  },
   "es": {
    "added": [],
    "removed": [
     "El último tema"
+   ],
+   "renamed": []
+  },
+  "no": {
+   "added": [],
+   "removed": [
+    "Crazy Ex-Girlfriend"
+   ],
+   "renamed": []
+  },
+  "se": {
+   "added": [],
+   "removed": [
+    "Crazy Ex-Girlfriend"
    ],
    "renamed": []
   }
